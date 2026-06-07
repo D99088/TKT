@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Admin Users</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            font-size: 20px;
+        }
+        
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: #333;
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+        
+        .users-table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .users-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .users-table th,
+        .users-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .users-table th {
+            background-color: #333;
+            color: white;
+        }
+        
+        .users-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-container {
+            width: 450px;
+            max-width: 95%;
+            background: white;
+            border-radius: 15px;
+            overflow: visible;
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 18px;
+        }
+        
+        .close-btn {
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 2px solid #e8e8e8;
+            background: #f8f8f8;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            background: white;
+            outline: none;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .password-field input {
+            padding-right: 45px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            cursor: pointer;
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .btn-modal {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .form-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .form-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .no-users {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .modal-overlay-login {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay-login.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay-login active" id="loginModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock"></i> Admin Login Required</h3>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Mobile</label>
+                        <input type="tel" id="loginMobile" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-field">
+                            <input type="password" id="loginPassword" required>
+                            <span class="toggle-password" onclick="toggleLoginPassword()">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-modal">Login</button>
+                    <div class="form-message" id="loginMessage"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <header>
+        <h1><a href="main-admin.html" style="color: white; text-decoration: none;"><i class="fas fa-user-shield"></i> Main Admin Panel</a></h1>
+        <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
+            <a href="#" style="color: white; text-decoration: none;"><i class="fas fa-users-cog"></i> Manage Admins</a>
+            <a href="index.html" style="color: white; text-decoration: none;"><i class="fas fa-home"></i> Website</a>
+        </div>
+    </header>
+    
+    <div class="container" id="mainContent" style="display: none;">
+        <div class="header-actions">
+            <h2>Admin Users</h2>
+            <button class="btn btn-success" onclick="openAddModal()">
+                <i class="fas fa-plus"></i> Add New Admin
+            </button>
+        </div>
+        
+        <div class="users-table" id="usersTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersList"></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Admin</h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group" id="mobileGroup">
+                        <label>Mobile</label>
+                        <input type="tel" id="mobile">
+                    </div>
+                    <div class="form-group" id="passwordGroup">
+                        <label>Password</label>
+                        <div class="password-field">
+                            <input type="password" id="password" placeholder="Enter password">
+                            <span class="toggle-password" onclick="togglePassword()">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <button type="submit" class="btn-modal" id="submitBtn">Add Admin</button>
+                    <div class="form-message" id="formMessage"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let isEdit = false;
+        
+        function loadUsers() {
+            fetch('admin_users_api.php?action=get')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderUsers(data.users);
+                    }
+                });
+        }
+        
+        function renderUsers(users) {
+            const tbody = document.getElementById('usersList');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-users">No admin users found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.mobile}</td>
+                    <td>${user.email || '-'}</td>
+                    <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-primary" onclick="editUser(${user.id}, '${user.username}', '${user.mobile}', '${user.email || ''}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteUser(${user.id}, '${user.username}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function openAddModal() {
+            isEdit = false;
+            document.getElementById('modalTitle').textContent = 'Add New Admin';
+            document.getElementById('submitBtn').textContent = 'Add Admin';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            document.getElementById('mobile').required = true;
+            document.getElementById('password').required = true;
+            document.getElementById('mobileGroup').style.display = 'block';
+            document.getElementById('passwordGroup').style.display = 'block';
+            document.getElementById('formMessage').style.display = 'none';
+            document.getElementById('userModal').classList.add('active');
+        }
+        
+        function editUser(id, username, mobile, email) {
+            isEdit = true;
+            document.getElementById('modalTitle').textContent = 'Edit Admin';
+            document.getElementById('submitBtn').textContent = 'Update Admin';
+            document.getElementById('userId').value = id;
+            document.getElementById('username').value = username;
+            document.getElementById('mobile').value = mobile;
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = '';
+            document.getElementById('mobile').required = false;
+            document.getElementById('password').required = false;
+            document.getElementById('mobileGroup').style.display = 'none';
+            document.getElementById('passwordGroup').style.display = 'none';
+            document.getElementById('formMessage').style.display = 'none';
+            document.getElementById('userModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('userModal').classList.remove('active');
+        }
+        
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        document.getElementById('userForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageEl = document.getElementById('formMessage');
+            
+            const formData = new FormData();
+            formData.append('username', document.getElementById('username').value);
+            formData.append('email', document.getElementById('email').value);
+            
+            if (isEdit) {
+                formData.append('action', 'update');
+                formData.append('id', document.getElementById('userId').value);
+            } else {
+                formData.append('action', 'add');
+                formData.append('mobile', document.getElementById('mobile').value);
+                formData.append('password', document.getElementById('password').value);
+            }
+            
+            fetch('admin_users_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message success';
+                    setTimeout(() => {
+                        closeModal();
+                        loadUsers();
+                    }, 1500);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error saving user';
+                messageEl.className = 'form-message error';
+            });
+        });
+        
+        function deleteUser(id, username) {
+            if (confirm(`Are you sure you want to delete admin "${username}"?`)) {
+                const formData = new FormData();
+                formData.append('action', 'delete');
+                formData.append('id', id);
+                
+                fetch('admin_users_api.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadUsers();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            }
+        }
+        
+        document.getElementById('userModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        function toggleLoginPassword() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.querySelector('.toggle-password i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const mobile = document.getElementById('loginMobile').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageEl = document.getElementById('loginMessage');
+            
+            messageEl.textContent = 'Logging in...';
+            messageEl.className = 'form-message';
+            messageEl.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            
+            fetch('admin_login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('adminUser', JSON.stringify(data.user));
+                    messageEl.textContent = 'Login successful!';
+                    messageEl.className = 'form-message success';
+                    setTimeout(() => {
+                        checkLogin();
+                    }, 1000);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error logging in';
+                messageEl.className = 'form-message error';
+            });
+        });
+        
+        function checkLogin() {
+            const adminUser = JSON.parse(localStorage.getItem('adminUser'));
+            if (adminUser && adminUser.id) {
+                document.getElementById('loginModal').classList.remove('active');
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                loadUsers();
+            } else {
+                document.getElementById('loginModal').classList.add('active');
+                document.getElementById('loginModal').style.display = 'flex';
+                document.getElementById('mainContent').style.display = 'none';
+            }
+        }
+        
+        checkLogin();
+    </script>
+</body>
+</html>

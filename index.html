@@ -1,0 +1,3244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        header {
+            background-color: #FFD700;
+            padding: 12px 16px;
+            border: 1px solid #808080;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .scroll-bar, .slider, main {
+            margin-top: 62px;
+        }
+        
+        header .nav-left {
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        header .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-icon {
+            width: 35px;
+            height: 35px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .header-buttons button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            min-height: 44px;
+        }
+        
+        .btn-login {
+            background-color: #333;
+            color: white;
+        }
+        
+        .btn-register {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #333;
+        }
+        
+        .header-buttons button:hover {
+            opacity: 1;
+            background: #444;
+        }
+        
+        .header-buttons .btn-register:hover {
+            background: #f5f5f5;
+        }
+        
+        .profile-btn {
+            width: 44px;
+            height: 44px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .deposit-btn {
+            width: 28px;
+            height: 44px;
+            background: #27ae60;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .deposit-btn:hover {
+            background: #219a52;
+        }
+        
+        #balanceDisplay {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            background: #f0fdf4;
+            border: 1px solid #27ae60;
+            border-radius: 20px;
+            padding: 2px 14px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #27ae60;
+            white-space: nowrap;
+            line-height: normal;
+            height: 34px;
+        }
+        
+        .profile-container {
+            position: relative;
+        }
+        
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .profile-dropdown.show {
+            display: block;
+        }
+        
+        .profile-info {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .profile-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .profile-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .profile-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .profile-menu a:hover {
+            background: #f5f5f5;
+        }
+        
+
+        
+        .scroll-bar {
+            background-color: #b6b5b537;
+            color: #333;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .scroll-wrapper {
+            display: flex;
+            width: max-content;
+            animation: scroll 10s linear infinite;
+        }
+        
+        .scroll-bar-content {
+            display: flex;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+        
+        .slides {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .slide span {
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: #333;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        
+        main {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+        
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-container {
+            width: 450px;
+            max-width: 95%;
+            background: white;
+            border-radius: 15px;
+            overflow: visible;
+            position: relative;
+        }
+        
+        #depositModal .modal-container .form-content {
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+        
+        #myTicketsModal .modal-container {
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-section {
+            padding: 30px 35px 40px 35px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f0f0f0;
+            z-index: 10;
+        }
+        
+        .close-btn:hover {
+            color: #fff;
+            background: #ff4444;
+        }
+        
+        .modal-welcome {
+            text-align: center;
+            padding: 20px 30px 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .modal-welcome h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .modal-welcome p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .money-balance {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .money-balance .label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .money-balance .amount {
+            font-size: 42px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .money-actions {
+            display: flex;
+            gap: 15px;
+            padding: 0 20px 30px;
+            justify-content: center;
+        }
+        .money-actions .btn-money {
+            flex: 1;
+            max-width: 180px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-deposit { background: #27ae60; }
+        .btn-withdraw { background: #e74c3c; }
+        .btn-deposit:hover { background: #219a52; }
+        .btn-withdraw:hover { background: #c0392b; }
+        
+        .pay-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .pay-toggle-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: #f8f8f8;
+            color: #888;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .pay-toggle-btn.active {
+            color: white;
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .pay-toggle-btn.active-upi {
+            border-color: #27ae60;
+            background: #27ae60;
+            color: white;
+        }
+        .pay-toggle-btn.active-bank {
+            border-color: #e67e22;
+            background: #e67e22;
+            color: white;
+        }
+        .pay-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            overflow-y: auto;
+        }
+        .pay-options.upi-layout {
+            flex-direction: row;
+            flex-wrap: wrap;
+            max-height: none;
+            justify-content: center;
+        }
+        .pay-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        .pay-options.upi-layout .pay-option {
+            flex-direction: column;
+            padding: 18px 20px;
+            min-width: 110px;
+            flex: 1;
+            text-align: center;
+            gap: 8px;
+        }
+        .pay-option:hover {
+            border-color: #667eea;
+            background: #f8f6ff;
+        }
+        .pay-option.selected {
+            border-color: #667eea;
+            background: #e8e3ff;
+        }
+        .pay-option-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            flex-shrink: 0;
+        }
+        .pay-options.upi-layout .pay-option-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 22px;
+        }
+        .pay-option-icon.upi-icon {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+        .pay-option-icon.bank-icon {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+        }
+        .pay-option-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .pay-options.upi-layout .pay-option-info {
+            flex: none;
+        }
+        .pay-option-info .pay-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        .pay-options.upi-layout .pay-option-info .pay-label {
+            font-size: 13px;
+        }
+        .pay-option-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .pay-option.selected .pay-option-check {
+            background: #667eea;
+            border-color: #667eea;
+        }
+        .pay-options.upi-layout .pay-option-check {
+            display: none;
+        }
+        .pay-options.upi-layout .pay-option.selected {
+            border-color: #27ae60;
+            background: #e8f8ef;
+        }
+        .pay-qr {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .pay-qr img {
+            max-width: 180px;
+            border-radius: 8px;
+        }
+        .pay-details-box {
+            display: none;
+            background: #f0f8ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 15px;
+        }
+        .pay-details-box.show {
+            display: block;
+        }
+        .pay-details-box .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+        }
+        .pay-details-box .detail-row .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+        .pay-details-box .detail-row .detail-value {
+            color: #333;
+            font-weight: 600;
+            text-align: right;
+            word-break: break-all;
+        }
+        .pay-details-box .copy-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+        .pay-details-box .copy-btn:hover {
+            color: #764ba2;
+        }
+        
+        .withdraw-method-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+        .quick-amounts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .quick-amt-btn {
+            padding: 8px 14px;
+            border: 2px solid #27ae60;
+            background: white;
+            color: #27ae60;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+        }
+        .quick-amt-btn:hover {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .modal-tabs {
+            display: flex;
+            gap: 15px;
+            padding: 20px 35px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #888;
+            border: 2px solid #ddd;
+            background: #f8f8f8;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .modal-tab.active {
+            color: white;
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .form-content {
+            padding: 15px 35px 20px 35px;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #444;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 2px solid #e8e8e8;
+            background: #f8f8f8;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            background: white;
+            outline: none;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .password-field input {
+            padding-right: 40px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 32px;
+            cursor: pointer;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .modal-content {
+            display: none;
+        }
+        
+        .modal-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #444;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 2px solid #e8e8e8;
+            background: #f8f8f8;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            background: white;
+            outline: none;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .password-field input {
+            padding-right: 40px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 32px;
+            cursor: pointer;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .btn-modal {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-top: 8px;
+        }
+        
+        .btn-modal:hover {
+            opacity: 0.9;
+        }
+        
+        .form-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .form-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .form-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .form-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .form-group input[type="file"] {
+            padding: 6px;
+            font-size: 12px;
+        }
+        .profile-modal .modal-welcome {
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+        }
+        
+        .profile-modal .form-content {
+            display: block;
+        }
+        
+        .ticket-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 15px;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .ticket-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .ticket-card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .ticket-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .ticket-card-img .placeholder-icon {
+            font-size: 60px;
+            color: white;
+            opacity: 0.7;
+        }
+        
+        .ticket-card-body {
+            padding: 15px 20px;
+        }
+        
+        .ticket-card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .ticket-card-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .ticket-card-info span {
+            color: #666;
+        }
+        
+        .ticket-card-info strong {
+            color: #333;
+        }
+        
+        .ticket-card-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ticket-card-cost {
+            font-size: 20px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .ticket-card-prize {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f39c12;
+        }
+        
+        .ticket-card-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .ticket-card-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .ticket-card-btn.closed {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .ticket-status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .ticket-status-badge.open {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .ticket-status-badge.closed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .ticket-card {
+                margin-bottom: 12px;
+            }
+            main {
+                padding: 25px 16px;
+            }
+            main h2 {
+                font-size: 22px;
+            }
+            #ticketsContainer {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+                gap: 16px !important;
+                padding: 0 12px !important;
+            }
+            .modal-container {
+                max-width: 98%;
+            }
+            .modal-section {
+                padding: 20px 25px 30px 25px;
+            }
+            .slider {
+                height: 130px;
+            }
+        }
+        @media (max-width: 480px) {
+            main {
+                padding: 20px 12px;
+            }
+            .modal-welcome {
+                padding: 16px 20px 12px 20px;
+            }
+            .modal-welcome h3 {
+                font-size: 18px;
+            }
+            .modal-welcome p {
+                font-size: 11px;
+            }
+            .modal-tabs {
+                padding: 12px 16px;
+                gap: 10px;
+            }
+            .modal-tab {
+                padding: 10px;
+                font-size: 13px;
+            }
+            .form-content {
+                padding: 12px 16px 16px 16px;
+            }
+            .pay-option-info .pay-label {
+                font-size: 11px;
+            }
+            .slider {
+                height: 120px;
+            }
+            h2,
+            main h2 {
+                font-size: 20px !important;
+            }
+            body {
+                font-size: 14px;
+            }
+            .header-buttons button {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            #ticketsContainer {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+                padding: 0 12px !important;
+            }
+            .money-balance .amount {
+                font-size: 24px;
+            }
+            .money-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .money-actions .btn-money {
+                max-width: 100%;
+            }
+            #depositModal .modal-container,
+            #withdrawModal .modal-container {
+                width: 100%;
+                height: 100%;
+                max-width: 100%;
+                max-height: 100%;
+                border-radius: 0;
+                display: flex;
+                flex-direction: column;
+            }
+            #depositModal .modal-container .form-content,
+            #withdrawModal .modal-container .form-content {
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px 25px 30px;
+            }
+            #depositModal .modal-welcome,
+            #withdrawModal .modal-welcome {
+                border-radius: 0;
+                padding: 30px 20px 20px;
+            }
+            #depositModal .modal-welcome h3,
+            #withdrawModal .modal-welcome h3 {
+                font-size: 22px;
+            }
+            #depositModal .form-group input,
+            #withdrawModal .form-group input {
+                padding: 14px 16px;
+                font-size: 16px;
+            }
+            #depositModal .btn-modal,
+            #withdrawModal .btn-modal {
+                padding: 16px;
+                font-size: 16px;
+            }
+            .quick-amounts {
+                gap: 6px;
+                margin-bottom: 12px;
+            }
+            .quick-amt-btn {
+                padding: 10px 8px;
+                font-size: 13px;
+                min-width: 50px;
+            }
+            .pay-toggle {
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            .pay-toggle-btn {
+                padding: 10px;
+                font-size: 13px;
+            }
+            .pay-options {
+                gap: 6px;
+            }
+            .pay-options.upi-layout .pay-option {
+                padding: 14px 12px;
+                min-width: 80px;
+                gap: 6px;
+            }
+            .pay-options.upi-layout .pay-option-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .pay-option {
+                padding: 12px;
+                gap: 10px;
+            }
+            .pay-option-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
+            }
+            .pay-option-info .pay-label {
+                font-size: 13px;
+            }
+            .pay-options.upi-layout .pay-option-info .pay-label {
+                font-size: 11px;
+            }
+            .pay-details-box {
+                padding: 12px;
+            }
+            .pay-details-box .detail-row {
+                font-size: 12px;
+            }
+            .pay-qr img {
+                max-width: 140px;
+            }
+        }
+        .qt-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .qt-row .qty-col {
+            flex: 0 0 100px;
+        }
+        .qt-row .ticket-col {
+            flex: 1;
+        }
+        .ticket-input-group {
+            display: flex;
+            gap: 5px;
+            align-items: stretch;
+        }
+        @media (max-width: 600px) {
+            .qt-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .qt-row .qty-col {
+                flex: none;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-left">
+            <span style="font-size:20px;font-weight:bold;color:#333;">TKT</span>
+        </div>
+        <div class="nav-right">
+            <div id="authButtons" class="header-buttons">
+                <button class="btn-login" onclick="openModal('login')">Login</button>
+                <button class="btn-register" onclick="openModal('register')">Register</button>
+            </div>
+            <div id="balanceDisplay"><span>₹</span><span id="balanceValue"></span></div>
+            <div id="depositBtn" class="deposit-btn" style="display: none;" onclick="showDepositForm()" title="Deposit">D</div>
+            <div id="profileButton" class="profile-btn" style="display: none;" onclick="toggleProfile()">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-info">
+                    <h4 id="userName">User</h4>
+                </div>
+                <div class="profile-menu">
+                    <a href="#" onclick="openProfileModal()"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="#" onclick="showMyMoney()"><i class="fas fa-wallet"></i> My Money</a>
+                    <a href="#" onclick="showMyTickets()"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                    <a href="#" onclick="showMyTransactions()"><i class="fas fa-exchange-alt"></i> My Transactions</a>
+                    <a href="#" onclick="showMyWins()"><i class="fas fa-trophy"></i> My Wins</a>
+                    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="scroll-bar">
+        <div class="scroll-wrapper" id="scrollWrapper">
+            <div class="scroll-bar-content" id="scrollBarContent"></div>
+        </div>
+    </div>
+    
+    <div class="slider">
+        <div class="slides" id="slides"></div>
+        <div class="slider-nav prev" onclick="changeSlide(-1)">&#10094;</div>
+        <div class="slider-nav next" onclick="changeSlide(1)">&#10095;</div>
+        <div class="slider-dots" id="sliderDots"></div>
+    </div>
+    
+    <main>
+        <h2 style="margin-bottom: 30px; font-size: 28px;"><i class="fas fa-ticket-alt"></i> Available Tickets</h2>
+        <div id="ticketsContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2011. All rights reserved.</p>
+    </footer>
+
+    <a href="https://wa.me/1234567890" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-container profile-modal">
+            <span class="close-btn" onclick="closeProfileModal()">&times;</span>
+            <div class="modal-welcome">
+                <h3><i class="fas fa-user-circle"></i> My Profile</h3>
+                <p>View and update your details</p>
+            </div>
+            <div class="form-content">
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="profileUsername" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile</label>
+                        <input type="tel" id="profileMobile" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="profileEmail" placeholder="Enter your email">
+                    </div>
+                    <h4 style="margin:15px 0 10px;color:#2c3e50;"><i class="fas fa-university"></i> Bank Details</h4>
+                    <div class="form-group">
+                        <label>Account Name</label>
+                        <input type="text" id="profileAccountName" placeholder="Enter account holder name">
+                    </div>
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        <input type="text" id="profileBankName" placeholder="Enter bank name">
+                    </div>
+                    <div class="form-group">
+                        <label>Account Number</label>
+                        <input type="text" id="profileAccountNumber" placeholder="Enter account number">
+                    </div>
+                    <div class="form-group">
+                        <label>IFSC Code</label>
+                        <input type="text" id="profileIfsc" placeholder="Enter IFSC code">
+                    </div>
+                    <div class="form-group">
+                        <label>UPI ID</label>
+                        <input type="text" id="profileUpiId" placeholder="Enter UPI ID">
+                    </div>
+                    <button type="submit" class="btn-modal">Update Profile</button>
+                    <div class="form-message" id="profileMessage"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="moneyModal">
+        <div class="modal-container">
+            <span class="close-btn" onclick="closeMoneyModal()">&times;</span>
+            <div class="modal-welcome">
+                <h3><i class="fas fa-wallet"></i> My Money</h3>
+                <p>Your current balance</p>
+            </div>
+            <div class="money-balance">
+                <div class="label">Available Balance</div>
+                <div class="amount">₹<span id="moneyBalanceDisplay">0</span></div>
+            </div>
+            <div class="money-actions">
+                <button class="btn-money btn-deposit" onclick="showDepositForm()"><i class="fas fa-arrow-down"></i> Deposit</button>
+                <button class="btn-money btn-withdraw" onclick="showWithdrawForm()"><i class="fas fa-arrow-up"></i> Withdrawal</button>
+                <button class="btn-money" style="background:#3498db;" onclick="showUserTransactions()"><i class="fas fa-list"></i> Transactions</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="userTransactionsModal">
+        <div class="modal-container" style="width:600px;max-width:98%;">
+            <span class="close-btn" onclick="closeUserTransactionsModal()">&times;</span>
+            <div class="modal-welcome">
+                <h3><i class="fas fa-list"></i> My Transactions</h3>
+                <p>Your complete transaction history</p>
+            </div>
+            <div class="form-content" style="padding:0;overflow:hidden;">
+                <div id="userTransactionsList" style="max-height:450px;overflow-y:auto;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="myTicketsModal">
+        <div class="modal-container" style="width:650px;max-width:98%;">
+            <div style="position:relative;background:white;border-radius:15px 15px 0 0;z-index:10;">
+                <span class="close-btn" onclick="closeMyTicketsModal()">&times;</span>
+                <div class="modal-welcome">
+                    <h3><i class="fas fa-ticket-alt"></i> My Tickets</h3>
+                    <p>Your purchased tickets</p>
+                </div>
+            </div>
+            <div style="padding:15px 20px;max-height:65vh;overflow-y:auto;">
+                <div id="myTicketsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="myWinsModal">
+        <div class="modal-container" style="width:650px;max-width:98%;">
+            <div style="position:relative;background:white;border-radius:15px 15px 0 0;z-index:10;">
+                <span class="close-btn" onclick="closeMyWinsModal()">&times;</span>
+                <div class="modal-welcome">
+                    <h3><i class="fas fa-trophy"></i> My Wins</h3>
+                    <p>Your claimed winnings</p>
+                </div>
+            </div>
+            <div style="padding:15px 20px;max-height:65vh;overflow-y:auto;">
+                <div id="myWinsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="ticketNumsModal">
+        <div class="modal-container" style="width:400px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
+            <span class="close-btn" onclick="closeTicketNumsPopup()">&times;</span>
+            <div class="modal-welcome" style="flex-shrink:0;">
+                <h3><i class="fas fa-ticket-alt"></i> <span id="ticketNumsTitle">Ticket Numbers</span></h3>
+            </div>
+            <div style="padding:15px 20px;max-height:60vh;overflow-y:auto;flex:1;">
+                <div id="ticketNumsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="depositModal">
+        <div class="modal-container">
+            <span class="close-btn" onclick="closeDepositModal()">&times;</span>
+            <div class="modal-welcome">
+                <h3><i class="fas fa-arrow-down"></i> Deposit Money</h3>
+                <p>Add funds to your account</p>
+            </div>
+            <div class="form-content">
+                <form id="depositForm">
+                    <div class="form-group">
+                        <label>Amount (₹)</label>
+                        <input type="number" id="depositAmount" min="1" step="0.01" placeholder="Enter amount" required>
+                    </div>
+                    <div class="quick-amounts">
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(100)">100</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(200)">200</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(500)">500</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(1000)">1K</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(2000)">2K</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(5000)">5K</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(10000)">10K</button>
+                        <button type="button" class="quick-amt-btn" onclick="setDepositAmount(25000)">25K</button>
+                    </div>
+                    <div class="pay-toggle" id="payToggle">
+                        <button type="button" class="pay-toggle-btn active active-upi" data-type="upi" onclick="switchPayType('upi')">
+                            <i class="fas fa-mobile-alt"></i> UPI
+                        </button>
+                        <button type="button" class="pay-toggle-btn" data-type="bank" onclick="switchPayType('bank')">
+                            <i class="fas fa-university"></i> Bank
+                        </button>
+                    </div>
+                    <div class="pay-options" id="payOptions"></div>
+                    <div class="pay-details-box" id="payDetailsBox">
+                        <div id="payDetailsContent"></div>
+                    </div>
+                    <input type="hidden" id="selectedPayMethod" value="">
+                    <div class="form-group" id="utrGroup" style="display:none;">
+                        <label>UTR / Transaction ID</label>
+                        <input type="text" id="depositUtr" placeholder="Enter UTR number after payment">
+                    </div>
+                    <div class="form-group" id="screenshotGroup" style="display:none;">
+                        <label>Screenshot (optional)</label>
+                        <input type="file" id="depositScreenshot" accept="image/*" onchange="previewDepositScreenshot(this)">
+                        <input type="hidden" id="depositScreenshotData">
+                        <div id="depositScreenshotPreview" style="margin-top:5px;"></div>
+                    </div>
+                    <button type="submit" class="btn-modal" style="background:#27ae60;">Deposit</button>
+                    <div class="form-message" id="depositMessage"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal-container">
+            <span class="close-btn" onclick="closeWithdrawModal()">&times;</span>
+            <div class="modal-welcome">
+                <h3><i class="fas fa-arrow-up"></i> Withdraw Money</h3>
+                <p>Withdraw funds from your account</p>
+            </div>
+            <div class="form-content">
+                <form id="withdrawForm">
+                    <div class="form-group">
+                        <label>Amount (₹)</label>
+                        <input type="number" id="withdrawAmount" min="1" step="0.01" placeholder="Enter amount" required>
+                    </div>
+                    <div id="withdrawBankFields">
+                        <div class="form-group">
+                            <label>Account Holder Name</label>
+                            <input type="text" id="withdrawBankAcName" placeholder="Name on bank account">
+                        </div>
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" id="withdrawBankName" placeholder="e.g. State Bank of India">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" id="withdrawBankAcNo" placeholder="Enter account number">
+                        </div>
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            <input type="text" id="withdrawBankIfsc" placeholder="e.g. SBIN0001234">
+                        </div>
+                        <div class="form-group">
+                            <label>UPI ID</label>
+                            <input type="text" id="withdrawUpiId" placeholder="e.g. user@paytm">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-modal" style="background:#e74c3c;">Withdraw</button>
+                    <div class="form-message" id="withdrawMessage"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="ticketBuyModal">
+        <div class="modal-container" style="width:540px;">
+            <span class="close-btn" onclick="closeTicketBuyModal()">&times;</span>
+            <div id="ticketBuyContent" style="padding:5px 0;">
+                <div style="text-align:center;padding:30px;color:#999;">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-container">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-welcome">
+                <h3>Welcome</h3>
+                <p>Welcome to our platform</p>
+            </div>
+            
+            <div class="modal-tabs">
+                <div class="modal-tab active" onclick="switchTab('login')">Login</div>
+                <div class="modal-tab" onclick="switchTab('register')">Register</div>
+            </div>
+            
+            <div class="form-content">
+                <div class="modal-content active" id="loginContent">
+                    <form id="loginFormIndex">
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input type="tel" id="loginMobileIndex" placeholder="Enter your mobile number" required>
+                        </div>
+                        <div class="form-group password-field">
+                            <label>Password</label>
+                            <input type="password" id="loginPasswordIndex" placeholder="Enter your password" required>
+                            <span class="toggle-password" onclick="togglePassword('loginPasswordIndex')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <button type="submit" class="btn-modal">Sign In</button>
+                        <div class="form-link">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                        <div class="form-message" id="loginMessageIndex"></div>
+                    </form>
+                </div>
+                
+                <div class="modal-content" id="registerContent">
+                    <form id="registerFormIndex">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="regUsernameIndex" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input type="tel" id="regMobileIndex" placeholder="Enter your mobile number" required>
+                        </div>
+                        <div class="form-group password-field">
+                            <label>Password</label>
+                            <input type="password" id="regPasswordIndex" placeholder="Create a password" required>
+                            <span class="toggle-password" onclick="togglePassword('regPasswordIndex')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="form-group password-field">
+                            <label>Confirm Password</label>
+                            <input type="password" id="regConfirmPasswordIndex" placeholder="Confirm your password" required>
+                            <span class="toggle-password" onclick="togglePassword('regConfirmPasswordIndex')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <button type="submit" class="btn-modal">Create Account</button>
+                        <div class="form-message" id="registerMessageIndex"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        let totalSlides = 0;
+        let autoSlideInterval;
+        
+        function loadWebsiteData() {
+            let data = JSON.parse(localStorage.getItem('websiteData'));
+            if (!data) {
+                data = {
+                    scrollings: [
+                        { text: 'Welcome to our website!', color: '#FFD700', icon: 'fa-star', active: true },
+                        { text: 'Latest news and updates available now!', color: '#FF6B6B', icon: 'fa-bell', active: true },
+                        { text: 'Check out our services!', color: '#4ECDC4', icon: 'fa-fire', active: true }
+                    ],
+                    slides: [
+                        { text: 'Slide 1', color: '#FF6B6B' },
+                        { text: 'Slide 2', color: '#4ECDC4' },
+                        { text: 'Slide 3', color: '#45B7D1' }
+                    ],
+                    tickets: [
+                        { name: 'Lucky Draw', cost: '100', prize: '500', drawtime: '12:00', date: '2026-06-03', status: 'open', image: '' },
+                        { name: 'Jackpot', cost: '200', prize: '1000', drawtime: '15:00', date: '2026-06-04', status: 'open', image: '' },
+                        { name: 'Mega Prize', cost: '50', prize: '300', drawtime: '18:00', date: '2026-06-05', status: 'open', image: '' }
+                    ],
+                    banks: [
+                        { type: 'upi', label: 'UPI 1', upi_id: 'example@paytm', upi_name: 'Example Pay TM', active: true, priority: 1 },
+                        { type: 'upi', label: 'UPI 2', upi_id: 'example@upi', upi_name: 'Example UPI', active: true, priority: 2 },
+                        { type: 'bank', label: 'Bank 1', name: 'State Bank of India', accountName: 'John Doe', accountNumber: '1234567890', ifsc: 'SBIN0001234', active: true, priority: 3 }
+                    ]
+                };
+                localStorage.setItem('websiteData', JSON.stringify(data));
+            }
+            
+            const scrollings = data.scrollings;
+            const scrollContent = document.getElementById('scrollBarContent');
+            
+            if (scrollings && scrollings.length > 0) {
+                let html = '';
+                let html2 = '';
+                for (let i = 0; i < scrollings.length; i++) {
+                    const scroll = scrollings[i];
+                    if (typeof scroll === 'string') {
+                        scroll = { text: scroll, color: '#FFD700', icon: '', active: true };
+                    }
+                    if (scroll.active !== false) {
+                        const iconHtml = scroll.icon ? '<i class="fas ' + scroll.icon + '" style="margin-right: 8px;"></i>' : '';
+                        html += '<span style="color: ' + scroll.color + ';">' + iconHtml + scroll.text + '</span><span style="color: black; font-size: 16px; margin: 0 60px;">●</span>';
+                        html2 += '<span style="color: ' + scroll.color + ';">' + iconHtml + scroll.text + '</span><span style="color: black; font-size: 16px; margin: 0 60px;">●</span>';
+                    }
+                }
+                if (html) {
+                    scrollContent.innerHTML = '<div style="display: flex;">' + html + html2 + '</div>';
+                } else {
+                    scrollContent.innerHTML = '<span>Welcome to our website!</span>';
+                }
+            } else {
+                scrollContent.innerHTML = '<span>Welcome to our website!</span>';
+            }
+            
+            const slidesContainer = document.getElementById('slides');
+            const dotsContainer = document.getElementById('sliderDots');
+            if (data.slides && data.slides.length > 0) {
+                const activeSlides = data.slides.filter(slide => slide.active !== false);
+                if (activeSlides.length > 0) {
+                    totalSlides = activeSlides.length;
+                    slidesContainer.style.width = (totalSlides * 100) + '%';
+                    slidesContainer.innerHTML = activeSlides.map(slide => {
+                        let style = `width: ${100/totalSlides}%;`;
+                        if (slide.image) {
+                            style += `background-image: url('${slide.image}'); background-color: ${slide.color};`;
+                        } else {
+                            style += `background-color: ${slide.color};`;
+                        }
+                        return `<div class="slide" style="${style}"><span>${slide.text}</span></div>`;
+                    }).join('');
+                    dotsContainer.innerHTML = activeSlides.map((_, i) =>
+                        `<div class="dot${i === 0 ? ' active' : ''}" onclick="goToSlide(${i})"></div>`
+                    ).join('');
+                    startAutoSlide();
+                } else {
+                    totalSlides = 1;
+                    slidesContainer.style.width = '100%';
+                    slidesContainer.innerHTML = '<div class="slide" style="width:100%;background-color:#667eea;"><span>Welcome to our platform!</span></div>';
+                    dotsContainer.innerHTML = '<div class="dot active"></div>';
+                    startAutoSlide();
+                }
+            } else {
+                totalSlides = 1;
+                slidesContainer.style.width = '100%';
+                slidesContainer.innerHTML = '<div class="slide" style="width:100%;background-color:#667eea;"><span>Welcome to our platform!</span></div>';
+                dotsContainer.innerHTML = '<div class="dot active"></div>';
+                startAutoSlide();
+            }
+            
+            const ticketsContainer = document.getElementById('ticketsContainer');
+            if (data.tickets && data.tickets.length > 0) {
+                const activeTickets = data.tickets.filter(ticket => ticket.status === 'open');
+                if (activeTickets.length > 0) {
+                    ticketsContainer.innerHTML = activeTickets.map((ticket, idx) => {
+                        let imageHtml = '';
+                        if (ticket.image) {
+                            imageHtml = `<img src="${ticket.image}" alt="${ticket.name}">`;
+                        } else {
+                            imageHtml = `<i class="fas fa-ticket-alt placeholder-icon"></i>`;
+                        }
+                        const isClosed = ticket.status !== 'open';
+                        return `
+                            <div class="ticket-card" onclick="showTicketPrizes('${ticket.name.replace(/'/g, "\\'")}')">
+                                <div class="ticket-card-img">
+                                    ${imageHtml}
+                                    <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 16px;">₹${ticket.cost}</div>
+                                </div>
+                                <div class="ticket-card-body">
+                                    <div class="ticket-card-price">
+                                        <div>
+                                            <div class="ticket-card-prize">Win ₹${ticket.prize}</div>
+                                        </div>
+                                        <button class="ticket-card-btn ${isClosed ? 'closed' : ''}" ${isClosed ? 'disabled' : ''} onclick="event.stopPropagation();buyTicket('${ticket.name.replace(/'/g, "\\'")}', ${ticket.cost}, ${ticket.prize}, '${(ticket.image || '').replace(/'/g, "\\'")}')">
+                                            ${isClosed ? 'Closed' : 'Buy Now'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    ticketsContainer.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">No tickets available at the moment.</p>';
+                }
+            } else {
+                ticketsContainer.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">No tickets available at the moment.</p>';
+            }
+        }
+
+        function showTicketPrizes(ticketName) {
+            var data = JSON.parse(localStorage.getItem('websiteData')) || {};
+            var tickets = data.tickets || [];
+            var ticket = null;
+            var tNameLower = ticketName.toLowerCase().trim();
+            for (var i = 0; i < tickets.length; i++) {
+                if (tickets[i].name.toLowerCase().trim() === tNameLower) { ticket = tickets[i]; break; }
+            }
+            if (!ticket) return;
+            var overlay = document.createElement('div');
+            overlay.className = 'modal-overlay active';
+            overlay.style.display = 'flex';
+            var prizes = ticket.prizes || [];
+            var html = '<div class="modal-container" style="max-width:450px;">' +
+                '<div class="modal-header" style="padding:20px 25px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;">' +
+                    '<h3 style="margin:0;font-size:18px;"><i class="fas fa-trophy" style="color:#f39c12;"></i> ' + ticket.name + ' - Prizes</h3>' +
+                    '<span class="close-btn" onclick="this.closest(\'.modal-overlay\').remove()" style="font-size:24px;cursor:pointer;color:#999;">&times;</span>' +
+                '</div>' +
+                '<div class="modal-body" style="padding:20px 25px;max-height:70vh;overflow-y:auto;">';
+            if (prizes.length > 0) {
+                html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+                for (var pi = 0; pi < prizes.length; pi++) {
+                    var pos = prizes[pi].position || (prizes[pi].positionFrom || '') + (prizes[pi].positionTo ? ' - ' + prizes[pi].positionTo : '');
+                    var pAmt = parseFloat(prizes[pi].amount) || 0;
+                    var pItem = prizes[pi].item || '';
+                    var amtDisplay = pAmt > 0 ? '₹' + pAmt : '';
+                    var itemDisplay = pItem ? (pAmt > 0 ? ' + ' + pItem : pItem) : '';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:linear-gradient(135deg,#fff8e1,#fff3cd);border-radius:10px;border:1px solid #ffe082;">' +
+                        '<div><span style="font-weight:700;color:#e67e22;font-size:16px;">' + pos + '</span></div>' +
+                        '<div><span style="font-weight:700;color:#27ae60;font-size:18px;">' + amtDisplay + '</span><span style="font-weight:700;color:#e67e22;font-size:16px;margin-left:6px;">' + itemDisplay + '</span></div>' +
+                    '</div>';
+                }
+                html += '</div>';
+            } else if (ticket.prize) {
+                html += '<div style="text-align:center;padding:30px;background:#f8f9fa;border-radius:10px;"><span style="font-size:20px;font-weight:700;color:#f39c12;">Win ₹' + ticket.prize + '</span></div>';
+            } else {
+                html += '<div style="text-align:center;padding:30px;color:#999;">No prize information available.</div>';
+            }
+            html += '<div style="padding:15px 0 0 0;border-top:1px solid #eee;margin-top:15px;">' +
+                '<button onclick="this.closest(\'.modal-overlay\').remove();buyTicket(\'' + ticket.name.replace(/'/g, "\\'") + '\',' + ticket.cost + ',' + ticket.prize + ',\'' + (ticket.image || '').replace(/'/g, "\\'") + '\')" style="width:100%;padding:14px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;"><i class="fas fa-shopping-cart"></i> Buy Now - ₹' + ticket.cost + '</button>' +
+            '</div>';
+            html += '</div></div>';
+            overlay.innerHTML = html;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+        }
+
+        var currentTicketRange = {prefix: '', startVal: 0, endVal: 0, padLen: 0};
+
+        function buyTicket(name, cost, prize, image) {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) {
+                openModal('login');
+                return;
+            }
+            document.getElementById('ticketBuyModal').classList.add('active');
+            var qty = 1;
+            var total = cost * qty;
+
+            var data = JSON.parse(localStorage.getItem('websiteData')) || {};
+            var tickets = data.tickets || [];
+            var ticket = null;
+            for (var i = 0; i < tickets.length; i++) {
+                if (tickets[i].name === name) { ticket = tickets[i]; break; }
+            }
+            var numStart = ticket ? (ticket.numStart || '') : '';
+            var numEnd = ticket ? (ticket.numEnd || '') : '';
+
+            var drawDate = ticket ? (ticket.date || '') : '';
+            var randomNum = '';
+            currentTicketRange = {prefix: '', startVal: 0, endVal: 0, padLen: 0};
+            if (numStart && numEnd) {
+                var matchStart = numStart.match(/(\d+)$/);
+                var matchEnd = numEnd.match(/(\d+)$/);
+                if (matchStart && matchEnd) {
+                    var prefix = numStart.substring(0, matchStart.index);
+                    var startVal = parseInt(matchStart[1]);
+                    var endVal = parseInt(matchEnd[1]);
+                    var padLen = matchStart[1].length;
+                    currentTicketRange = {prefix: prefix, startVal: startVal, endVal: endVal, padLen: padLen};
+                    var randVal = Math.floor(Math.random() * (endVal - startVal + 1)) + startVal;
+                    randomNum = prefix + String(randVal).padStart(padLen, '0');
+                } else {
+                    randomNum = numStart;
+                }
+            }
+            if (!randomNum) {
+                var np = name.split(' ');
+                var dateParts = drawDate ? drawDate.split('-') : [];
+                var yymmdd = dateParts.length === 3 ? dateParts[0].substring(2) + dateParts[1] + dateParts[2] : '000000';
+                var p1 = np[0] ? np[0].charAt(0) : 'T';
+                var p2 = np[1] ? np[1].charAt(0) : (np[0] && np[0].length > 1 ? np[0].charAt(np[0].length-1) : 'K');
+                var autoPrefix = p1 + yymmdd + p2;
+                currentTicketRange = {prefix: autoPrefix, startVal: 1010101, endVal: 99999999, padLen: 8};
+                var randVal = Math.floor(Math.random() * (99999999 - 1010101 + 1)) + 1010101;
+                randomNum = autoPrefix + String(randVal).padStart(8, '0');
+            }
+
+            var trailingDigitMatch = randomNum.match(/(\d+)$/);
+            var ticketPrefixVal = trailingDigitMatch ? randomNum.substring(0, randomNum.length - trailingDigitMatch[1].length) : randomNum;
+            var ticketSuffixVal = trailingDigitMatch ? trailingDigitMatch[1] : '';
+
+            var imageHtml = image ? '<div style="position:relative;width:100%;height:180px;border-radius:10px 10px 0 0;overflow:hidden;"><div style="width:100%;height:100%;background:url(' + image + ') center/cover no-repeat;"></div>' + (drawDate ? '<div style="position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,0.55);color:#fff;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:500;"><i class="far fa-calendar-alt" style="margin-right:4px;"></i>' + drawDate + '</div>' : '') + '</div>' : '<div style="text-align:center;padding:20px 0;"><i class="fas fa-ticket-alt" style="font-size:60px;color:#667eea;"></i></div>';
+
+            var html = imageHtml;
+            html += '<div style="text-align:center;padding:20px;">';
+            html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:25px;">';
+            html += '<h3 style="margin:0;font-size:20px;color:#2c3e50;text-transform:uppercase;">' + name + '</h3>';
+            html += '<div style="text-align:right;"><div style="font-size:16px;font-weight:700;color:#27ae60;">Win ₹' + prize + '</div><div style="font-size:14px;color:#666;">₹' + cost + '/ticket</div></div>';
+            html += '</div>';
+            html += '<div class="qt-row">';
+            html += '<div class="qty-col"><div style="font-size:13px;color:#555;margin-bottom:6px;">Quantity</div>';
+            html += '<input type="number" id="ticketQtyInput" value="' + qty + '" min="1" oninput="setTicketQty(this.value,' + cost + ')" style="width:100%;padding:8px;text-align:center;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;"></div>';
+            html += '<div class="ticket-col"><div style="font-size:13px;color:#555;margin-bottom:6px;">Ticket Number</div>';
+            html += '<div class="ticket-input-group"><input type="text" id="ticketPrefixInput" value="' + ticketPrefixVal + '" readonly style="width:auto;padding:8px;text-align:center;border:2px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;background:#f0f0f0;color:#555;font-family:monospace;flex-shrink:0;">';
+            html += '<input type="text" id="ticketSuffixInput" value="' + ticketSuffixVal + '" placeholder="Enter digits" style="flex:1;min-width:50px;padding:8px;text-align:center;border:2px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;font-family:monospace;">';
+            html += '<button type="button" id="shuffleToggleBtn" onclick="toggleShuffle()" style="padding:8px 10px;background:#d0d0d0;color:#666;border:none;border-radius:8px;font-size:13px;cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0;"><i class="fas fa-random"></i></button></div>';
+            html += '</div>';
+            html += '</div>';
+            html += '<div style="font-size:24px;font-weight:700;color:#2c3e50;margin-bottom:20px;text-align:center;">Total: ₹<span id="ticketTotal">' + total + '</span></div>';
+            html += '<button type="button" onclick="confirmTicketBuy(\'' + name.replace(/'/g, "\\'") + '\',' + cost + ',' + prize + ')" style="width:100%;padding:14px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:8px;">Buy Now</button>';
+            html += '<div class="form-message" id="ticketBuyMessage" style="margin-top:10px;"></div>';
+            html += '</div>';
+
+            document.getElementById('ticketBuyContent').innerHTML = html;
+        }
+
+        function getRandomTicketNumber() {
+            var r = currentTicketRange;
+            if (r.startVal && r.endVal && r.endVal > r.startVal) {
+                var randVal = Math.floor(Math.random() * (r.endVal - r.startVal + 1)) + r.startVal;
+                return r.prefix + String(randVal).padStart(r.padLen, '0');
+            }
+            var rand = Math.floor(Math.random() * 900000) + 100000;
+            return 'TKT-' + rand;
+        }
+
+        function toggleShuffle() {
+            var btn = document.getElementById('shuffleToggleBtn');
+            if (!btn) return;
+            var isShuffle = btn.getAttribute('data-shuffle') === 'true';
+            if (isShuffle) {
+                btn.removeAttribute('data-shuffle');
+                btn.style.background = '#d0d0d0';
+                btn.style.color = '#666';
+                var inp = document.getElementById('ticketSuffixInput');
+                if (inp) inp.readOnly = false;
+            } else {
+                btn.setAttribute('data-shuffle', 'true');
+                btn.style.background = '#667eea';
+                btn.style.color = '#fff';
+                var inp = document.getElementById('ticketSuffixInput');
+                if (inp) {
+                    var fullNum = getRandomTicketNumber();
+                    var match = fullNum.match(/(\d+)$/);
+                    inp.value = match ? match[1] : fullNum;
+                    inp.readOnly = true;
+                }
+            }
+        }
+
+        function setTicketQty(n, cost) {
+            var qty = parseInt(n);
+            if (isNaN(qty) || qty < 1) qty = 1;
+            var inp = document.getElementById('ticketQtyInput');
+            if (inp) inp.value = qty;
+            var totalEl = document.getElementById('ticketTotal');
+            if (totalEl) totalEl.textContent = (qty * cost);
+
+            var buttons = document.querySelectorAll('#ticketBuyContent button[onclick^="setTicketQty"]');
+            buttons.forEach(function(b) {
+                var match = b.getAttribute('onclick').match(/\d+/);
+                var val = match ? parseInt(match[0]) : 0;
+                if (val === qty) {
+                    b.style.background = '#667eea';
+                    b.style.color = 'white';
+                } else {
+                    b.style.background = 'white';
+                    b.style.color = '#333';
+                }
+            });
+        }
+
+        function confirmTicketBuy(name, cost, prize) {
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) { openModal('login'); return; }
+            var qtyEl = document.getElementById('ticketQtyInput');
+            var qty = parseInt(qtyEl ? qtyEl.value : 1);
+            if (isNaN(qty) || qty < 1) qty = 1;
+            var total = qty * cost;
+            var msgEl = document.getElementById('ticketBuyMessage');
+
+            msgEl.textContent = 'Checking availability...';
+            msgEl.className = 'form-message';
+            msgEl.style.display = 'block';
+
+            var fd = new FormData();
+            fd.append('action', 'get_ticket_numbers');
+            fd.append('ticket_name', name);
+
+            fetch('transaction_api.php', { method: 'POST', body: fd })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (!d.success) {
+                    msgEl.textContent = 'Error checking ticket numbers';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
+                var usedSet = {};
+                if (d.numbers) {
+                    for (var i = 0; i < d.numbers.length; i++) {
+                        usedSet[d.numbers[i]] = true;
+                    }
+                }
+
+                if (currentTicketRange.startVal && currentTicketRange.endVal && currentTicketRange.endVal > currentTicketRange.startVal) {
+                    var totalInRange = currentTicketRange.endVal - currentTicketRange.startVal + 1;
+                    var usedCount = 0;
+                    for (var k in usedSet) usedCount++;
+                    var availableCount = totalInRange - usedCount;
+                    if (availableCount < 1) {
+                        msgEl.textContent = 'No tickets available for this lottery.';
+                        msgEl.className = 'form-message error';
+                        msgEl.style.display = 'block';
+                        return;
+                    }
+                    if (qty > availableCount) {
+                        msgEl.textContent = 'Only ' + availableCount + ' ticket(s) available. You requested ' + qty + '.';
+                        msgEl.className = 'form-message error';
+                        msgEl.style.display = 'block';
+                        return;
+                    }
+                }
+
+                var shuffleBtn = document.getElementById('shuffleToggleBtn');
+                var isShuffle = shuffleBtn && shuffleBtn.getAttribute('data-shuffle') === 'true';
+                var ticketNums = [];
+                var maxAttempts = 5000;
+
+                if (isShuffle) {
+                    var attempts = 0;
+                    while (ticketNums.length < qty && attempts < maxAttempts) {
+                        var num = getRandomTicketNumber();
+                        attempts++;
+                        if (!usedSet[num]) {
+                            ticketNums.push(num);
+                            usedSet[num] = true;
+                        }
+                    }
+                } else {
+                    var prefixEl = document.getElementById('ticketPrefixInput');
+                    var suffixEl = document.getElementById('ticketSuffixInput');
+                    var baseNum = (prefixEl ? prefixEl.value.trim() : '') + (suffixEl ? suffixEl.value.trim() : '');
+                    if (baseNum) {
+                        var match = baseNum.match(/(\d+)$/);
+                        if (match) {
+                            var prefix = baseNum.substring(0, match.index);
+                            var startNum = parseInt(match[1]);
+                            var padLen = match[1].length;
+                            if (usedSet[baseNum]) {
+                                msgEl.textContent = 'Not Available — ticket number ' + baseNum + ' is already booked';
+                                msgEl.className = 'form-message error';
+                                msgEl.style.display = 'block';
+                                return;
+                            }
+                            var current = startNum;
+                            while (ticketNums.length < qty) {
+                                var seqNum = prefix + String(current).padStart(padLen, '0');
+                                if (!usedSet[seqNum]) {
+                                    ticketNums.push(seqNum);
+                                    usedSet[seqNum] = true;
+                                }
+                                current++;
+                            }
+                        } else {
+                            for (var ni = 0; ni < qty; ni++) {
+                                ticketNums.push(baseNum + (ni > 0 ? '-' + (ni + 1) : ''));
+                            }
+                        }
+                    }
+                }
+
+                if (ticketNums.length < qty) {
+                    msgEl.textContent = 'Could not generate enough unique ticket numbers. Try a different number.';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
+
+                if (user.balance !== undefined && parseFloat(user.balance) >= total) {
+                    var formData = new FormData();
+                    formData.append('action', 'ticket_purchase');
+                    formData.append('user_id', user.id);
+                    formData.append('ticket_name', name);
+                    formData.append('quantity', qty);
+                    formData.append('total_amount', total);
+                    formData.append('cost_per_ticket', cost);
+                    formData.append('ticket_numbers', ticketNums.join(','));
+
+                    msgEl.textContent = 'Processing...';
+                    msgEl.className = 'form-message';
+                    msgEl.style.display = 'block';
+
+                    fetch('transaction_api.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(function(r) { return r.json(); })
+                    .then(function(d) {
+                        if (d.success) {
+                            user.balance = parseFloat(user.balance) - total;
+                            localStorage.setItem('currentUser', JSON.stringify(user));
+                            refreshBalanceFromServer();
+                            msgEl.textContent = 'Tickets purchased successfully!';
+                            msgEl.className = 'form-message success';
+                            setTimeout(function() { closeTicketBuyModal(); }, 1500);
+                        } else {
+                            msgEl.textContent = d.message || 'Purchase failed';
+                            msgEl.className = 'form-message error';
+                        }
+                    })
+                    .catch(function() {
+                        msgEl.textContent = 'Error processing purchase';
+                        msgEl.className = 'form-message error';
+                    });
+                } else {
+                    msgEl.textContent = 'Insufficient balance. Please deposit first.';
+                    msgEl.className = 'form-message error';
+                    msgEl.style.display = 'block';
+                }
+            })
+            .catch(function() {
+                msgEl.textContent = 'Error checking ticket numbers';
+                msgEl.className = 'form-message error';
+            });
+        }
+
+        function closeTicketBuyModal() {
+            document.getElementById('ticketBuyModal').classList.remove('active');
+        }
+        
+        loadWebsiteData();
+        
+        function startAutoSlide() {
+            if (totalSlides <= 0) return;
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(function() {
+                currentSlide++;
+                if (currentSlide >= totalSlides) currentSlide = 0;
+                updateSlider();
+            }, 4000);
+        }
+        
+        function changeSlide(direction) {
+            clearInterval(autoSlideInterval);
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            updateSlider();
+            startAutoSlide();
+        }
+        
+        function goToSlide(index) {
+            clearInterval(autoSlideInterval);
+            currentSlide = index;
+            updateSlider();
+            startAutoSlide();
+        }
+        
+        function updateSlider() {
+            if (totalSlides <= 0) return;
+            document.getElementById('slides').style.transform = 'translateX(-' + (currentSlide * (100 / totalSlides)) + '%)';
+            document.querySelectorAll('.dot').forEach(function(dot, i) {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+        
+        function openModal(tab) {
+            document.getElementById('authModal').classList.add('active');
+            switchTab(tab);
+        }
+        
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+        
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.modal-tab');
+            const loginContent = document.getElementById('loginContent');
+            const registerContent = document.getElementById('registerContent');
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+                loginContent.classList.add('active');
+                registerContent.classList.remove('active');
+            } else {
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
+                registerContent.classList.add('active');
+                loginContent.classList.remove('active');
+            }
+        }
+        
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        document.getElementById('registerFormIndex').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsernameIndex').value;
+            const mobile = document.getElementById('regMobileIndex').value;
+            const password = document.getElementById('regPasswordIndex').value;
+            const confirmPassword = document.getElementById('regConfirmPasswordIndex').value;
+            const messageEl = document.getElementById('registerMessageIndex');
+            
+            messageEl.textContent = 'Creating account...';
+            messageEl.className = 'form-message';
+            messageEl.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            formData.append('confirm_password', confirmPassword);
+            
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageEl.textContent = 'Account created successfully!';
+                    messageEl.className = 'form-message success';
+                    document.getElementById('registerFormIndex').reset();
+                    setTimeout(() => {
+                        switchTab('login');
+                        messageEl.className = 'form-message';
+                        messageEl.style.display = 'none';
+                    }, 2000);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error creating account';
+                messageEl.className = 'form-message error';
+            });
+        });
+        
+        document.getElementById('loginFormIndex').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const mobile = document.getElementById('loginMobileIndex').value;
+            const password = document.getElementById('loginPasswordIndex').value;
+            const messageEl = document.getElementById('loginMessageIndex');
+            
+            messageEl.textContent = 'Logging in...';
+            messageEl.className = 'form-message';
+            messageEl.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            
+            fetch('login_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageEl.textContent = 'Login successful!';
+                    messageEl.className = 'form-message success';
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    startStatusChecker();
+                    setTimeout(() => {
+                        closeModal();
+                        document.getElementById('loginFormIndex').reset();
+                        messageEl.className = 'form-message';
+                        messageEl.style.display = 'none';
+                        updateAuthUI();
+                    }, 1500);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error logging in';
+                messageEl.className = 'form-message error';
+            });
+        });
+        
+        function updateAuthUI() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const authButtons = document.getElementById('authButtons');
+            const profileButton = document.getElementById('profileButton');
+            const depositBtn = document.getElementById('depositBtn');
+            
+            if (currentUser && currentUser.id) {
+                fetch('register.php?action=verify&user_id=' + currentUser.id)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.user) {
+                            const userStatus = data.user.status || 'active';
+                            if (userStatus !== 'active') {
+                                localStorage.removeItem('currentUser');
+                                alert('Your account has been suspended');
+                                authButtons.style.display = 'flex';
+                                profileButton.style.display = 'none';
+                                depositBtn.style.display = 'none';
+                            } else {
+                                authButtons.style.display = 'none';
+                                profileButton.style.display = 'flex';
+                                depositBtn.style.display = 'flex';
+                                document.getElementById('userName').textContent = currentUser.username;
+                                updateBalanceDisplay();
+                                startStatusChecker();
+                            }
+                        } else {
+                            localStorage.removeItem('currentUser');
+                            authButtons.style.display = 'flex';
+                            profileButton.style.display = 'none';
+                            depositBtn.style.display = 'none';
+                        }
+                    })
+                    .catch(function() {
+                        authButtons.style.display = 'none';
+                        profileButton.style.display = 'flex';
+                        depositBtn.style.display = 'flex';
+                        document.getElementById('userName').textContent = currentUser.username;
+                        updateBalanceDisplay();
+                    });
+            } else {
+                authButtons.style.display = 'flex';
+                profileButton.style.display = 'none';
+                depositBtn.style.display = 'none';
+                updateBalanceDisplay();
+            }
+        }
+        
+        var statusCheckInterval = null;
+        
+        function updateBalanceDisplay() {
+            var cu = JSON.parse(localStorage.getItem('currentUser'));
+            var el = document.getElementById('balanceDisplay');
+            var val = document.getElementById('balanceValue');
+            if (cu && cu.balance !== undefined) {
+                val.textContent = Math.floor(parseFloat(cu.balance));
+                el.style.display = 'flex';
+            } else if (el) {
+                el.style.display = 'none';
+            }
+        }
+
+        function refreshBalanceFromServer() {
+            var cu = JSON.parse(localStorage.getItem('currentUser'));
+            if (!cu || !cu.id) return;
+            fetch('transaction_api.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=balance&user_id=' + cu.id
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (d.success) {
+                    cu.balance = d.balance;
+                    localStorage.setItem('currentUser', JSON.stringify(cu));
+                    updateBalanceDisplay();
+                }
+            });
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) refreshBalanceFromServer();
+        });
+
+        function startStatusChecker() {
+            if (statusCheckInterval) clearInterval(statusCheckInterval);
+            statusCheckInterval = setInterval(function() {
+                var cu = JSON.parse(localStorage.getItem('currentUser'));
+                if (cu && cu.id) {
+                    refreshBalanceFromServer();
+                fetch('register.php?action=verify&user_id=' + cu.id)
+                        .then(function(r) { return r.json(); })
+                        .then(function(d) {
+                            if (d.success && d.user) {
+                                if (d.user.status !== 'active') {
+                                    clearInterval(statusCheckInterval);
+                                    statusCheckInterval = null;
+                                    localStorage.removeItem('currentUser');
+                                    alert('Your account has been suspended');
+                                    updateAuthUI();
+                                }
+                            } else {
+                                clearInterval(statusCheckInterval);
+                                statusCheckInterval = null;
+                                localStorage.removeItem('currentUser');
+                                updateAuthUI();
+                            }
+                        });
+                } else {
+                    if (statusCheckInterval) { clearInterval(statusCheckInterval); statusCheckInterval = null; }
+                }
+            }, 10000);
+        }
+        
+        function toggleProfile() {
+            document.getElementById('profileDropdown').classList.toggle('show');
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            fetch('logout.php')
+                .then(() => {
+                    document.getElementById('profileDropdown').classList.remove('show');
+                    updateAuthUI();
+                });
+        }
+        
+        function showMyMoney() {
+            document.getElementById('profileDropdown').classList.remove('show');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.id) {
+                fetch('transaction_api.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: 'action=balance&user_id=' + currentUser.id
+                })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.success) {
+                        document.getElementById('moneyBalanceDisplay').textContent = d.balance;
+                        currentUser.balance = d.balance;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        updateBalanceDisplay();
+                    }
+                });
+            }
+            document.getElementById('moneyModal').classList.add('active');
+        }
+        
+        function closeMoneyModal() {
+            document.getElementById('moneyModal').classList.remove('active');
+        }
+        
+        function closeDepositModal() {
+            document.getElementById('depositModal').classList.remove('active');
+            document.getElementById('depositForm').reset();
+            document.getElementById('depositMessage').style.display = 'none';
+        }
+        
+        function closeWithdrawModal() {
+            document.getElementById('withdrawModal').classList.remove('active');
+            document.getElementById('withdrawForm').reset();
+            document.getElementById('withdrawMessage').style.display = 'none';
+        }
+        
+        var allPayMethods = [];
+
+        function getUnavailableFromSubadmin() {
+            var unavailableBanks = {};
+            var unavailableUpis = {};
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                if (key && key.indexOf('adminAccounts_') === 0) {
+                    var accounts = JSON.parse(localStorage.getItem(key)) || [];
+                    for (var j = 0; j < accounts.length; j++) {
+                        var acc = accounts[j];
+                        if (acc.available === false || acc.locked) {
+                            if (acc.bank_name && acc.account_number) {
+                                unavailableBanks[acc.bank_name + '|' + acc.account_number] = true;
+                            }
+                            if (acc.upi_id) {
+                                unavailableUpis[acc.upi_id] = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return { banks: unavailableBanks, upis: unavailableUpis };
+        }
+
+        function filterSubadminUnavailable(methods) {
+            var ua = getUnavailableFromSubadmin();
+            return methods.filter(function(m) {
+                if (m.type === 'upi' && ua.upis[m.upi_id]) return false;
+                if (m.type === 'bank') {
+                    var key = (m.name || m.bank_name || '') + '|' + (m.accountNumber || m.account_number || '');
+                    if (ua.banks[key]) return false;
+                }
+                return true;
+            });
+        }
+
+        function loadPaymentMethods(callbackType) {
+            fetch('payment_methods_api.php')
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (d.success && d.methods && d.methods.length > 0) {
+                        allPayMethods = d.methods;
+                        allPayMethods = filterSubadminUnavailable(allPayMethods);
+                        if (callbackType) renderPayOptions(callbackType);
+                    } else {
+                        loadLocalPaymentMethods(callbackType);
+                    }
+                })
+                .catch(function() {
+                    loadLocalPaymentMethods(callbackType);
+                });
+        }
+
+        function loadLocalPaymentMethods(callbackType) {
+            var localData = JSON.parse(localStorage.getItem('websiteData'));
+            if (localData && localData.banks && localData.banks.length > 0) {
+                allPayMethods = localData.banks.filter(function(b) { return b.active !== false; });
+                allPayMethods = filterSubadminUnavailable(allPayMethods);
+                allPayMethods.sort(function(a, b) { return (a.priority || 999) - (b.priority || 999); });
+                for (var i = 0; i < allPayMethods.length; i++) {
+                    allPayMethods[i].id = allPayMethods[i].id || (i + 1);
+                }
+                if (callbackType) renderPayOptions(callbackType);
+            }
+        }
+
+        function renderPayOptions(type) {
+            var container = document.getElementById('payOptions');
+            var methods = allPayMethods.filter(function(m) { return m.type === type; });
+            if (methods.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:#888;font-size:13px;">No ' + type.toUpperCase() + ' options available</div>';
+                return;
+            }
+            container.className = 'pay-options upi-layout';
+            var prefix = type === 'upi' ? 'UPI' : 'Bank';
+            var html = '';
+            for (var i = 0; i < methods.length; i++) {
+                var m = methods[i];
+                var iconClass = type === 'upi' ? 'upi-icon' : 'bank-icon';
+                var iconHtml = type === 'upi' ? '<i class="fas fa-mobile-alt"></i>' : '<i class="fas fa-university"></i>';
+                html += '<div class="pay-option" data-id="' + m.id + '" onclick="selectPayMethod(' + m.id + ',\'' + type + '\')">' +
+                    '<div class="pay-option-icon ' + iconClass + '">' + iconHtml + '</div>' +
+                    '<div class="pay-option-info">' +
+                    '<div class="pay-label">' + prefix + ' ' + (i + 1) + '</div>' +
+                    '</div>' +
+                    '</div>';
+            }
+            container.innerHTML = html;
+            document.getElementById('payDetailsBox').classList.remove('show');
+            document.getElementById('selectedPayMethod').value = '';
+        }
+
+        function switchPayType(type) {
+            var btns = document.querySelectorAll('.pay-toggle-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active', 'active-upi', 'active-bank');
+                if (btns[i].getAttribute('data-type') === type) {
+                    btns[i].classList.add('active');
+                    btns[i].classList.add(type === 'upi' ? 'active-upi' : 'active-bank');
+                }
+            }
+            if (allPayMethods.length === 0) {
+                loadPaymentMethods(type);
+            } else {
+                renderPayOptions(type);
+            }
+        }
+
+        function selectPayMethod(id, type) {
+            var options = document.querySelectorAll('.pay-option');
+            for (var i = 0; i < options.length; i++) {
+                options[i].classList.remove('selected');
+                if (parseInt(options[i].getAttribute('data-id')) === id) {
+                    options[i].classList.add('selected');
+                }
+            }
+            document.getElementById('selectedPayMethod').value = id;
+
+            var method = null;
+            for (var i = 0; i < allPayMethods.length; i++) {
+                if (parseInt(allPayMethods[i].id) === id) {
+                    method = allPayMethods[i];
+                    break;
+                }
+            }
+            if (!method) return;
+
+            var box = document.getElementById('payDetailsBox');
+            var content = document.getElementById('payDetailsContent');
+            var html = '';
+
+            if (type === 'upi') {
+                var escUpiId = (method.upi_id || '').replace(/'/g, '\\\'');
+                html += '<div class="detail-row"><span class="detail-label">UPI ID</span><span class="detail-value">' + (method.upi_id || '') + ' <button type="button" class="copy-btn" onclick="copyText(\'' + escUpiId + '\')"><i class="fas fa-copy"></i></button></span></div>';
+                html += '<div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">' + (method.upi_name || '') + '</span></div>';
+                if (method.qr_code) {
+                    html += '<div class="pay-qr"><img src="' + method.qr_code + '" alt="QR Code"></div>';
+                }
+            } else {
+                var aname = method.accountName || method.account_name || '';
+                var bn = method.bank_name || method.name || '';
+                var an = method.account_number || method.accountNumber || '';
+                if (aname) {
+                    html += '<div class="detail-row"><span class="detail-label">Account Name</span><span class="detail-value">' + aname + '</span></div>';
+                }
+                html += '<div class="detail-row"><span class="detail-label">Bank</span><span class="detail-value">' + bn + '</span></div>';
+                var escAcct = (an || '').replace(/'/g, '\\\'');
+                html += '<div class="detail-row"><span class="detail-label">Account</span><span class="detail-value">' + an + ' <button type="button" class="copy-btn" onclick="copyText(\'' + escAcct + '\')"><i class="fas fa-copy"></i></button></span></div>';
+                var escIfsc = (method.ifsc || '').replace(/'/g, '\\\'');
+                html += '<div class="detail-row"><span class="detail-label">IFSC</span><span class="detail-value">' + (method.ifsc || '') + ' <button type="button" class="copy-btn" onclick="copyText(\'' + escIfsc + '\')"><i class="fas fa-copy"></i></button></span></div>';
+            }
+            content.innerHTML = html;
+            box.classList.add('show');
+            document.getElementById('utrGroup').style.display = 'block';
+            document.getElementById('screenshotGroup').style.display = 'block';
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(function() { showCopyToast('Copied!'); })
+                    .catch(function() { fallbackCopy(text); });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showCopyToast('Copied!'); } catch (e) {}
+            document.body.removeChild(ta);
+        }
+
+        function showCopyToast(msg) {
+            var t = document.createElement('div');
+            t.textContent = msg;
+            t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 24px;border-radius:8px;font-size:14px;z-index:9999;transition:opacity 0.3s;';
+            document.body.appendChild(t);
+            setTimeout(function() {
+                t.style.opacity = '0';
+                setTimeout(function() { document.body.removeChild(t); }, 300);
+            }, 1500);
+        }
+
+        function previewDepositScreenshot(input) {
+            var preview = document.getElementById('depositScreenshotPreview');
+            var hidden = document.getElementById('depositScreenshotData');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" style="max-width:120px;max-height:120px;border-radius:6px;border:1px solid #ddd;">';
+                    hidden.value = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.innerHTML = '';
+                hidden.value = '';
+            }
+        }
+
+        function setDepositAmount(amt) {
+            var current = parseFloat(document.getElementById('depositAmount').value) || 0;
+            document.getElementById('depositAmount').value = current + amt;
+        }
+        
+        function showUserTransactions() {
+            closeMoneyModal();
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || !user.id) { alert('Please login first'); return; }
+            refreshBalanceFromServer();
+            var container = document.getElementById('userTransactionsList');
+            container.innerHTML = '<div style="text-align:center;padding:20px;color:#999;">Loading...</div>';
+            document.getElementById('userTransactionsModal').classList.add('active');
+            var fd = new FormData();
+            fd.append('action', 'list_user_payments');
+            fd.append('user_id', user.id);
+            fetch('transaction_api.php', { method: 'POST', body: fd })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (d.success && d.payments && d.payments.length > 0) {
+                        var html = '<table style="width:100%;border-collapse:collapse;">';
+                        html += '<thead><tr style="background:#f8f9fa;">';
+                        html += '<th style="padding:12px 15px;text-align:left;font-size:12px;color:#666;border-bottom:2px solid #eee;">Type</th>';
+                        html += '<th style="padding:12px 15px;text-align:left;font-size:12px;color:#666;border-bottom:2px solid #eee;">Date & Time</th>';
+                        html += '<th style="padding:12px 15px;text-align:left;font-size:12px;color:#666;border-bottom:2px solid #eee;">Amount</th>';
+                        html += '<th style="padding:12px 15px;text-align:left;font-size:12px;color:#666;border-bottom:2px solid #eee;">UTR</th>';
+                        html += '<th style="padding:12px 15px;text-align:left;font-size:12px;color:#666;border-bottom:2px solid #eee;">Status</th>';
+                        html += '</tr></thead><tbody>';
+                        for (var i = 0; i < d.payments.length; i++) {
+                            var p = d.payments[i];
+                            var isTicket = p.description && p.description.indexOf('Ticket:') === 0;
+                            var isWon = p.description && p.description.indexOf('Winning claim - ') === 0;
+                            var typeIcon = isTicket ? 'fa-ticket-alt' : (isWon ? 'fa-trophy' : (p.type === 'credit' ? 'fa-arrow-down' : 'fa-arrow-up'));
+                            var typeColor = isTicket ? '#667eea' : (isWon ? '#f39c12' : (p.type === 'credit' ? '#27ae60' : '#e74c3c'));
+                            var typeLabel = '';
+                            if (isTicket) {
+                                var desc = p.description;
+                                var parts = desc.match(/Ticket: (.+?) x(\d+)/);
+                                typeLabel = parts ? parts[1] + ' (x' + parts[2] + ')' : desc;
+                            } else if (isWon) {
+                                var wonName = p.description.replace('Winning claim - ', '');
+                                typeLabel = 'Won - ' + wonName;
+                            } else {
+                                typeLabel = p.type === 'credit' ? 'Deposit' : 'Withdrawal';
+                            }
+                            var statusColor = p.status === 'completed' ? '#27ae60' : (p.status === 'submitted' || p.status === 'pending' ? '#f39c12' : '#e74c3c');
+                            var created = p.created_at || '';
+                            var datePart = created.substring(0, 10);
+                            var timePart = created.substring(11, 19);
+                            html += '<tr style="border-bottom:1px solid #eee;">';
+                            html += '<td style="padding:14px 15px;"><i class="fas ' + typeIcon + '" style="color:' + typeColor + ';margin-right:8px;"></i>' + typeLabel + '</td>';
+                            html += '<td style="padding:14px 15px;font-size:13px;color:#555;">' + datePart + '<br><span style="font-size:11px;color:#999;">' + timePart + '</span></td>';
+                            html += '<td style="padding:14px 15px;font-weight:600;color:' + typeColor + ';">' + (p.type === 'credit' ? '+' : '-') + '₹' + p.amount + '</td>';
+                            html += '<td style="padding:14px 15px;font-size:13px;color:#555;">' + (p.utr || '-') + '</td>';
+                            html += '<td style="padding:14px 15px;"><span style="background:' + statusColor + ';color:white;padding:3px 12px;border-radius:12px;font-size:11px;font-weight:600;">' + (p.status || '-') + '</span></td>';
+                            html += '</tr>';
+                        }
+                        html += '</tbody></table>';
+                        container.innerHTML = html;
+                    } else if (d.message) {
+                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;"><i class="fas fa-exclamation-circle" style="font-size:40px;margin-bottom:10px;"></i><p>' + d.message + '</p></div>';
+                    } else {
+                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;"><i class="fas fa-inbox" style="font-size:40px;margin-bottom:10px;"></i><p>No transactions found</p></div>';
+                    }
+                })
+                .catch(function(e) {
+                    container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;">Error loading transactions</div>';
+                });
+        }
+
+        function closeUserTransactionsModal() {
+            document.getElementById('userTransactionsModal').classList.remove('active');
+        }
+        
+        document.getElementById('userTransactionsModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeUserTransactionsModal();
+        });
+
+        function showDepositForm() {
+            closeMoneyModal();
+            document.getElementById('depositMessage').style.display = 'none';
+            document.getElementById('depositForm').reset();
+            document.getElementById('selectedPayMethod').value = '';
+            document.getElementById('payDetailsBox').classList.remove('show');
+            document.getElementById('utrGroup').style.display = 'none';
+            document.getElementById('screenshotGroup').style.display = 'none';
+            document.getElementById('depositScreenshotPreview').innerHTML = '';
+            document.getElementById('depositScreenshotData').value = '';
+            allPayMethods = [];
+            switchPayType('upi');
+            document.getElementById('depositModal').classList.add('active');
+        }
+        
+        function showWithdrawForm() {
+            closeMoneyModal();
+            document.getElementById('withdrawMessage').style.display = 'none';
+            document.getElementById('withdrawForm').reset();
+            document.getElementById('withdrawModal').classList.add('active');
+        }
+        
+        document.getElementById('moneyModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeMoneyModal();
+        });
+        
+        document.getElementById('depositModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeDepositModal();
+        });
+        
+        document.getElementById('withdrawModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeWithdrawModal();
+        });
+        
+        document.getElementById('depositForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var msg = document.getElementById('depositMessage');
+            var amt = document.getElementById('depositAmount').value;
+            var payMethodId = document.getElementById('selectedPayMethod').value;
+            var utr = document.getElementById('depositUtr').value;
+            var screenshot = document.getElementById('depositScreenshotData').value;
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || !user.id) { msg.textContent = 'Please login'; msg.className = 'form-message error'; msg.style.display = 'block'; return; }
+            if (!amt || amt <= 0) { msg.textContent = 'Enter valid amount'; msg.className = 'form-message error'; msg.style.display = 'block'; return; }
+            if (!payMethodId) { msg.textContent = 'Please select a payment method'; msg.className = 'form-message error'; msg.style.display = 'block'; return; }
+            msg.textContent = 'Processing...';
+            msg.className = 'form-message';
+            msg.style.display = 'block';
+            var formData = new FormData();
+            formData.append('action', 'deposit');
+            formData.append('user_id', user.id);
+            formData.append('amount', amt);
+            formData.append('payment_method_id', payMethodId);
+            var selectedMethod = null;
+            for (var i = 0; i < allPayMethods.length; i++) {
+                if (parseInt(allPayMethods[i].id) === parseInt(payMethodId)) {
+                    selectedMethod = allPayMethods[i];
+                    break;
+                }
+            }
+            if (selectedMethod) {
+                var label = '';
+                if (selectedMethod.type === 'upi') {
+                    label = selectedMethod.upi_id || 'UPI';
+                } else {
+                    label = (selectedMethod.bank_name || selectedMethod.name || 'Bank') + ' - ' + (selectedMethod.account_number || selectedMethod.accountNumber || '');
+                }
+                formData.append('payment_method_label', label);
+            }
+            formData.append('utr', utr);
+            if (screenshot) formData.append('screenshot', screenshot);
+            fetch('transaction_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(d => {
+                if (d.success) {
+                    msg.textContent = 'Deposit request submitted! Awaiting approval.';
+                    msg.className = 'form-message success';
+                    refreshBalanceFromServer();
+                    setTimeout(function() { closeDepositModal(); showUserTransactions(); }, 1500);
+                } else {
+                    msg.textContent = d.message;
+                    msg.className = 'form-message error';
+                }
+            })
+            .catch(function() {
+                msg.textContent = 'Error processing deposit';
+                msg.className = 'form-message error';
+            });
+        });
+        
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var msg = document.getElementById('withdrawMessage');
+            var amt = document.getElementById('withdrawAmount').value;
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || !user.id) { msg.textContent = 'Please login'; msg.className = 'form-message error'; msg.style.display = 'block'; return; }
+            if (!amt || amt <= 0) { msg.textContent = 'Enter valid amount'; msg.className = 'form-message error'; msg.style.display = 'block'; return; }
+
+            var bankName = document.getElementById('withdrawBankName').value.trim();
+            var acNo = document.getElementById('withdrawBankAcNo').value.trim();
+            var ifsc = document.getElementById('withdrawBankIfsc').value.trim();
+            var acName = document.getElementById('withdrawBankAcName').value.trim();
+            var upiId = document.getElementById('withdrawUpiId').value.trim();
+            if (!bankName || !acNo) { msg.textContent = 'Please enter bank name and account number'; msg.className = 'form-message error'; msg.style.display = 'block'; return; }
+            var wDesc = 'Bank: ' + bankName + ' | Acct: ' + acNo + (ifsc ? ' | IFSC: ' + ifsc : '') + (acName ? ' | Name: ' + acName : '') + (upiId ? ' | UPI: ' + upiId : '');
+
+            msg.textContent = 'Processing...';
+            msg.className = 'form-message';
+            msg.style.display = 'block';
+            var fd = new FormData();
+            fd.append('action', 'withdrawal');
+            fd.append('user_id', user.id);
+            fd.append('amount', amt);
+            fd.append('payment_method_label', wDesc);
+            fetch('transaction_api.php', {
+                method: 'POST',
+                body: fd
+            })
+            .then(r => r.json())
+            .then(d => {
+                if (d.success) {
+                    msg.textContent = 'Withdrawal request submitted! Awaiting approval.';
+                    msg.className = 'form-message success';
+                    refreshBalanceFromServer();
+                    setTimeout(function() { closeWithdrawModal(); showUserTransactions(); }, 1500);
+                } else {
+                    msg.textContent = d.message;
+                    msg.className = 'form-message error';
+                }
+            })
+            .catch(function() {
+                msg.textContent = 'Error processing withdrawal';
+                msg.className = 'form-message error';
+            });
+        });
+        
+        var _myTicketsReq = 0;
+        function showMyTickets() {
+            document.getElementById('profileDropdown').classList.remove('show');
+            document.getElementById('myTicketsModal').classList.add('active');
+            var container = document.getElementById('myTicketsList');
+            container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">Loading...</div>';
+
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || !user.id) { container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">Please login first</div>'; return; }
+
+            var websiteData = JSON.parse(localStorage.getItem('websiteData')) || {};
+            var allTickets = websiteData.tickets || [];
+            var reqId = ++_myTicketsReq;
+
+            fetch('transaction_api.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=list_user_payments&user_id=' + user.id
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (reqId !== _myTicketsReq) return;
+                if (!d.success || !d.payments) {
+                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">No tickets purchased yet</div>';
+                    return;
+                }
+
+                var purchases = [];
+                var claims = websiteData.claims || [];
+                for (var i = 0; i < d.payments.length; i++) {
+                    var p = d.payments[i];
+                    if (p.description && p.description.indexOf('Ticket:') === 0) {
+                        var parts = p.description.match(/Ticket: (.+?) x(\d+)/);
+                        if (parts) {
+                            var nums = p.ticket_numbers ? p.ticket_numbers.split(',').filter(function(n) { return n.trim(); }) : [];
+                            var claimed = claims.some(function(c) { return String(c.paymentId) === String(p.id) && String(c.userId) === String(user.id); });
+                            purchases.push({ name: parts[1], qty: parseInt(parts[2]), amount: p.amount, status: p.status, date: p.created_at, ticketNumbers: nums, paymentId: p.id, isClaimed: claimed });
+                        }
+                    }
+                }
+                purchases = purchases.filter(function(p) {
+                    var nameLower = p.name.toLowerCase().trim();
+                    var def = null;
+                    for (var j = 0; j < allTickets.length; j++) {
+                        if (allTickets[j].name.toLowerCase().trim() === nameLower) { def = allTickets[j]; break; }
+                    }
+                    return !p.isClaimed && !(def && def.declared);
+                });
+
+                if (purchases.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;"><i class="fas fa-ticket-alt" style="font-size:50px;margin-bottom:15px;opacity:0.5;"></i><p>No tickets purchased yet</p></div>';
+                    return;
+                }
+
+                var html = '<div style="display:flex;flex-direction:column;gap:25px;">';
+                for (var i = 0; i < purchases.length; i++) {
+                    var tp = purchases[i];
+                    var ticketDef = null;
+                    var ticketIdx = -1;
+                    var tpNameLower = tp.name.toLowerCase().trim();
+                    for (var j = 0; j < allTickets.length; j++) {
+                        if (allTickets[j].name.toLowerCase().trim() === tpNameLower) { ticketDef = allTickets[j]; ticketIdx = j; break; }
+                    }
+                    var imageHtml = (ticketDef && ticketDef.image) ? '<img src="' + ticketDef.image + '" alt="' + tp.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<i class="fas fa-ticket-alt" style="font-size:40px;color:#667eea;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></i>';
+                    var prizeHtml = (ticketDef && ticketDef.prize) ? '<span style="color:#f39c12;">🏆 Win ₹' + ticketDef.prize + '</span>' : '<span style="color:#999;">Prize N/A</span>';
+                    var drawTimeHtml = (ticketDef && ticketDef.drawtime) ? ticketDef.drawtime : '';
+                    var drawDateHtml = (ticketDef && ticketDef.date) ? ticketDef.date : (tp.date ? tp.date.substring(0,10) : '');
+                    var statusColor = tp.status === 'completed' ? '#27ae60' : (tp.status === 'pending' ? '#f39c12' : '#e74c3c');
+                    var numsJson = JSON.stringify(tp.ticketNumbers);
+
+                    var winAmount = 0;
+                    if (ticketDef && ticketDef.declared && ticketDef.winners) {
+                        for (var w = 0; w < ticketDef.winners.length; w++) {
+                            var winner = ticketDef.winners[w];
+                            var winnerNums = winner.ticketNumbers ? winner.ticketNumbers.split(',').map(function(n) { return n.trim(); }).filter(function(n) { return n; }) : [];
+                            var prizes = ticketDef.prizes || [];
+                            var prizeAmt = 0;
+                            for (var pz = 0; pz < prizes.length; pz++) {
+                                if (prizes[pz].position === winner.position) { prizeAmt = parseFloat(prizes[pz].amount) || 0; break; }
+                            }
+                            if (prizeAmt === 0 && ticketDef.prize) prizeAmt = parseFloat(ticketDef.prize) || 0;
+                            for (var tn = 0; tn < tp.ticketNumbers.length; tn++) {
+                                if (winnerNums.indexOf(tp.ticketNumbers[tn]) !== -1) {
+                                    winAmount += prizeAmt;
+                                }
+                            }
+                        }
+                    }
+
+                    html += '<div style="background:#fff;border-radius:15px;border:2px solid #e0e0e0;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);cursor:pointer;" data-tname="' + tp.name.replace(/"/g, '&quot;') + '" data-tnums="' + numsJson.replace(/"/g, '&quot;') + '" onclick="showTicketNumsPopup(this)">';
+                    html += '<div style="width:100%;height:150px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;position:relative;">' + imageHtml + '</div>';
+                    html += '<div style="padding:15px 20px;">';
+                    html += '<div style="font-size:18px;font-weight:700;color:#2c3e50;margin-bottom:6px;text-transform:uppercase;">' + tp.name + '</div>';
+                    html += '<div style="font-size:14px;font-weight:600;margin-bottom:10px;">' + prizeHtml + '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
+                    html += '<div style="font-size:13px;color:#555;">🕐 Draw: <strong>' + drawDateHtml + (drawTimeHtml ? ' ' + drawTimeHtml : '') + '</strong></div>';
+                    html += '<div style="font-size:13px;color:#555;">Qty: <strong>' + tp.qty + '</strong></div>';
+                    html += '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #eee;">';
+                    html += '<div style="font-size:14px;font-weight:700;color:#27ae60;">Total Paid: ₹' + tp.amount + '</div>';
+                    html += '<span style="background:' + statusColor + ';color:white;padding:4px 14px;border-radius:12px;font-size:11px;font-weight:600;text-transform:capitalize;">' + tp.status + '</span>';
+                    html += '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:2px solid #f39c12;margin-top:8px;">';
+                    html += '<div style="font-size:15px;font-weight:700;color:#f39c12;">🏆 Winning: ₹' + winAmount + '</div>';
+                    if (ticketDef && ticketDef.declared && winAmount > 0 && !tp.isClaimed) {
+                        html += '<button onclick="event.stopPropagation();claimWinning(' + ticketIdx + ',\'' + tp.name.replace(/'/g, "\\'") + '\',' + user.id + ',' + tp.paymentId + ',' + winAmount + ')" style="padding:8px 18px;background:#27ae60;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;"><i class="fas fa-hand-holding-usd"></i> Claim</button>';
+                    }
+                    html += '</div>';
+                    html += '</div></div>';
+                }
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(function() {
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">Error loading tickets</div>';
+            });
+        }
+
+        function claimWinning(ticketIndex, ticketName, userId, paymentId, amount) {
+            if (!confirm('Claim ₹' + amount + ' winnings for ' + ticketName + '?')) return;
+            var fd = new FormData();
+            fd.append('action', 'claim_winning');
+            fd.append('user_id', userId);
+            fd.append('ticket_name', ticketName);
+            fd.append('win_amount', amount);
+            fetch('transaction_api.php', { method: 'POST', body: fd })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (d.success) {
+                    var cu = JSON.parse(localStorage.getItem('currentUser'));
+                    if (cu) { cu.balance = (parseFloat(cu.balance) || 0) + amount; localStorage.setItem('currentUser', JSON.stringify(cu)); updateBalanceDisplay(); }
+                    var websiteData = JSON.parse(localStorage.getItem('websiteData')) || {};
+                    if (!websiteData.claims) websiteData.claims = [];
+                    websiteData.claims.push({ ticketName: ticketName, userId: userId, paymentId: paymentId, amount: amount, claimedAt: new Date().toISOString() });
+                    localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                    showMyWins();
+                } else {
+                    alert(d.message || 'Claim failed');
+                }
+            })
+            .catch(function() {
+                alert('Network error. Please try again.');
+            });
+        }
+
+        function showTicketNumsPopup(card) {
+            var name = card.getAttribute('data-tname');
+            var numsStr = card.getAttribute('data-tnums');
+            document.getElementById('ticketNumsTitle').textContent = name + ' - Ticket Numbers';
+            var container = document.getElementById('ticketNumsList');
+            if (!numsStr) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:#999;">No ticket numbers available</div>';
+            } else {
+                var nums;
+                try { nums = JSON.parse(numsStr); } catch(e) { nums = numsStr.split(','); }
+                if (!nums || nums.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:20px;color:#999;">No ticket numbers available</div>';
+                } else {
+                    var websiteData = JSON.parse(localStorage.getItem('websiteData')) || {};
+                    var allTickets = websiteData.tickets || [];
+                    var ticketDef = null;
+                    var nameLower = name.toLowerCase().trim();
+                    for (var j = 0; j < allTickets.length; j++) {
+                        if (allTickets[j].name.toLowerCase().trim() === nameLower) { ticketDef = allTickets[j]; break; }
+                    }
+                    var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+                    for (var i = 0; i < nums.length; i++) {
+                        var idx2 = i + 1;
+                        var num = nums[i].trim();
+                        var winAmt = 0;
+                        if (ticketDef && ticketDef.declared && ticketDef.winners) {
+                            for (var w = 0; w < ticketDef.winners.length; w++) {
+                                var winner = ticketDef.winners[w];
+                                var winnerNums = winner.ticketNumbers ? winner.ticketNumbers.split(',').map(function(n) { return n.trim(); }).filter(function(n) { return n; }) : [];
+                                if (winnerNums.indexOf(num) !== -1) {
+                                    var prizes = ticketDef.prizes || [];
+                                    var found = false;
+                                    for (var pz = 0; pz < prizes.length; pz++) {
+                                        if (prizes[pz].position === winner.position) { winAmt += parseFloat(prizes[pz].amount) || 0; found = true; break; }
+                                    }
+                                    if (!found && ticketDef.prize) winAmt += parseFloat(ticketDef.prize) || 0;
+                                }
+                            }
+                        }
+                        var winHtml = winAmt > 0 ? '<span style="color:#f39c12;font-weight:700;font-size:14px;">🏆 ₹' + winAmt + '</span>' : '';
+                        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:' + (winAmt > 0 ? '#fff8e1' : '#f0f4ff') + ';border-radius:8px;border:1px solid ' + (winAmt > 0 ? '#ffd54f' : '#e0e7ff') + ';"><span style="font-size:13px;color:#666;">#' + idx2 + '</span><span style="font-weight:600;font-size:15px;color:#2c3e50;font-family:monospace;">' + num + '</span>' + winHtml + '</div>';
+                    }
+                    html += '</div>';
+                    container.innerHTML = html;
+                }
+            }
+            document.getElementById('ticketNumsModal').classList.add('active');
+        }
+
+        function closeTicketNumsPopup() {
+            document.getElementById('ticketNumsModal').classList.remove('active');
+        }
+
+        function closeMyTicketsModal() {
+            document.getElementById('myTicketsModal').classList.remove('active');
+        }
+
+        function closeMyWinsModal() {
+            document.getElementById('myWinsModal').classList.remove('active');
+        }
+        
+        function showMyTransactions() {
+            document.getElementById('profileDropdown').classList.remove('show');
+            showUserTransactions();
+        }
+        
+        var _myWinsReq = 0;
+        function showMyWins() {
+            document.getElementById('profileDropdown').classList.remove('show');
+            document.getElementById('myWinsModal').classList.add('active');
+            var container = document.getElementById('myWinsList');
+            container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">Loading...</div>';
+
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || !user.id) { container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">Please login first</div>'; return; }
+
+            var reqId = ++_myWinsReq;
+
+            fetch('transaction_api.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=list_user_payments&user_id=' + user.id
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (reqId !== _myWinsReq) return;
+                if (!d.success || !d.payments) {
+                    container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;"><i class="fas fa-trophy" style="font-size:50px;margin-bottom:15px;opacity:0.5;"></i><p>No wins yet</p></div>';
+                    return;
+                }
+
+                var purchases = [];
+                var websiteData = JSON.parse(localStorage.getItem('websiteData')) || {};
+                var allTickets = websiteData.tickets || [];
+                var claims = websiteData.claims || [];
+                for (var i = 0; i < d.payments.length; i++) {
+                    var p = d.payments[i];
+                    if (p.description && p.description.indexOf('Ticket:') === 0) {
+                        var parts = p.description.match(/Ticket: (.+?) x(\d+)/);
+                        if (parts) {
+                            var nums = p.ticket_numbers ? p.ticket_numbers.split(',').filter(function(n) { return n.trim(); }) : [];
+                            var claimed = claims.some(function(c) { return String(c.paymentId) === String(p.id) && String(c.userId) === String(user.id); });
+                            var nameLower = parts[1].toLowerCase().trim();
+                            var ticketDef = null;
+                            for (var j = 0; j < allTickets.length; j++) {
+                                if (allTickets[j].name.toLowerCase().trim() === nameLower) { ticketDef = allTickets[j]; break; }
+                            }
+                            var isDeclared = ticketDef && ticketDef.declared;
+                            if (claimed || isDeclared) {
+                                var claimData = claimed ? claims.find(function(c) { return String(c.paymentId) === String(p.id) && String(c.userId) === String(user.id); }) : null;
+                                purchases.push({ name: parts[1], qty: parseInt(parts[2]), amount: p.amount, status: p.status, date: p.created_at, ticketNumbers: nums, paymentId: p.id, isClaimed: claimed, claimAmount: claimData ? claimData.amount : 0, claimedAt: claimData ? claimData.claimedAt : '' });
+                            }
+                        }
+                    }
+                }
+
+                purchases.sort(function(a, b) {
+                    function getPriority(p) {
+                        if (p.isClaimed) return 2;
+                        var td = null;
+                        for (var j = 0; j < allTickets.length; j++) {
+                            if (allTickets[j].name.toLowerCase().trim() === p.name.toLowerCase().trim()) { td = allTickets[j]; break; }
+                        }
+                        if (td && td.declared && td.winners) {
+                            for (var w = 0; w < td.winners.length; w++) {
+                                var wn = td.winners[w].ticketNumbers ? td.winners[w].ticketNumbers.split(',').map(function(n) { return n.trim(); }).filter(function(n) { return n; }) : [];
+                                for (var tn = 0; tn < p.ticketNumbers.length; tn++) {
+                                    if (wn.indexOf(p.ticketNumbers[tn]) !== -1) return 0;
+                                }
+                            }
+                        }
+                        return 1;
+                    }
+                    return getPriority(a) - getPriority(b);
+                });
+
+                if (purchases.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;"><i class="fas fa-trophy" style="font-size:50px;margin-bottom:15px;opacity:0.5;"></i><p>No wins yet</p></div>';
+                    return;
+                }
+
+                var html = '<div style="display:flex;flex-direction:column;gap:25px;">';
+                for (var i = 0; i < purchases.length; i++) {
+                    var tp = purchases[i];
+                    var ticketDef = null;
+                    var tpNameLower = tp.name.toLowerCase().trim();
+                    for (var j = 0; j < allTickets.length; j++) {
+                        if (allTickets[j].name.toLowerCase().trim() === tpNameLower) { ticketDef = allTickets[j]; break; }
+                    }
+                    var imageHtml = (ticketDef && ticketDef.image) ? '<img src="' + ticketDef.image + '" alt="' + tp.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<i class="fas fa-ticket-alt" style="font-size:40px;color:#667eea;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></i>';
+                    var drawTimeHtml = (ticketDef && ticketDef.drawtime) ? ticketDef.drawtime : '';
+                    var drawDateHtml = (ticketDef && ticketDef.date) ? ticketDef.date : (tp.date ? tp.date.substring(0,10) : '');
+                    var claimedDate = tp.claimedAt ? new Date(tp.claimedAt).toLocaleDateString() : '';
+                    var winAmount = 0;
+                    if (ticketDef && ticketDef.declared && ticketDef.winners) {
+                        for (var w = 0; w < ticketDef.winners.length; w++) {
+                            var winner = ticketDef.winners[w];
+                            var winnerNums = winner.ticketNumbers ? winner.ticketNumbers.split(',').map(function(n) { return n.trim(); }).filter(function(n) { return n; }) : [];
+                            var prizes = ticketDef.prizes || [];
+                            var prizeAmt = 0;
+                            for (var pz = 0; pz < prizes.length; pz++) {
+                                if (prizes[pz].position === winner.position) { prizeAmt = parseFloat(prizes[pz].amount) || 0; break; }
+                            }
+                            if (prizeAmt === 0 && ticketDef.prize) prizeAmt = parseFloat(ticketDef.prize) || 0;
+                            for (var tn = 0; tn < tp.ticketNumbers.length; tn++) {
+                                if (winnerNums.indexOf(tp.ticketNumbers[tn]) !== -1) {
+                                    winAmount += prizeAmt;
+                                }
+                            }
+                        }
+                    }
+                    var hasWon = winAmount > 0;
+                    var statusLabel = tp.isClaimed ? 'Claimed' : (hasWon ? 'Winner' : 'Draw Ended');
+                    var statusBg = tp.isClaimed ? '#2e7d32' : (hasWon ? '#f39c12' : '#95a5a6');
+
+                    html += '<div style="background:#fff;border-radius:15px;border:2px solid ' + (hasWon ? '#f39c12' : '#c8e6c9') + ';overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">';
+                    html += '<div style="width:100%;height:150px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;position:relative;">' + imageHtml + '</div>';
+                    html += '<div style="padding:15px 20px;">';
+                    html += '<div style="font-size:18px;font-weight:700;color:#2c3e50;margin-bottom:6px;text-transform:uppercase;">' + tp.name + '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
+                    html += '<div style="font-size:13px;color:#555;">🕐 Draw: <strong>' + drawDateHtml + (drawTimeHtml ? ' ' + drawTimeHtml : '') + '</strong></div>';
+                    html += '<div style="font-size:13px;color:#555;">Qty: <strong>' + tp.qty + '</strong></div>';
+                    html += '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #eee;">';
+                    html += '<div style="font-size:14px;font-weight:700;color:#27ae60;">Total Paid: ₹' + tp.amount + '</div>';
+                    html += '<span style="background:' + statusBg + ';color:white;padding:4px 14px;border-radius:12px;font-size:11px;font-weight:600;"><i class="fas ' + (tp.isClaimed ? 'fa-check-circle' : (hasWon ? 'fa-trophy' : 'fa-flag-checkered')) + '"></i> ' + statusLabel + '</span>';
+                    html += '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:2px solid #f39c12;margin-top:8px;">';
+                    if (hasWon && !tp.isClaimed) {
+                        html += '<div style="font-size:16px;font-weight:700;color:#f39c12;">🏆 Won: ₹' + winAmount + '</div>';
+                        html += '<button onclick="event.stopPropagation();claimWinning(-1,\'' + tp.name.replace(/'/g, "\\'") + '\',' + user.id + ',' + tp.paymentId + ',' + winAmount + ')" style="padding:8px 18px;background:#27ae60;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;"><i class="fas fa-hand-holding-usd"></i> Claim</button>';
+                    } else if (hasWon && tp.isClaimed) {
+                        html += '<div style="font-size:16px;font-weight:700;color:#f39c12;">🏆 Won: ₹' + winAmount + '</div>';
+                        if (claimedDate) html += '<div style="font-size:12px;color:#888;">Claimed: ' + claimedDate + '</div>';
+                    } else {
+                        html += '<div style="font-size:14px;color:#888;">No winning ticket</div>';
+                    }
+                    html += '</div>';
+                    html += '</div></div>';
+                }
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(function() {
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">Error loading wins</div>';
+            });
+        }
+        
+        function openProfileModal() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                document.getElementById('profileUsername').value = currentUser.username || '';
+                document.getElementById('profileMobile').value = currentUser.mobile || '';
+                document.getElementById('profileEmail').value = currentUser.email || '';
+                document.getElementById('profileAccountName').value = currentUser.account_name || '';
+                document.getElementById('profileBankName').value = currentUser.bank_name || '';
+                document.getElementById('profileAccountNumber').value = currentUser.account_number || '';
+                document.getElementById('profileIfsc').value = currentUser.ifsc || '';
+                document.getElementById('profileUpiId').value = currentUser.upi_id || '';
+            }
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.add('active');
+        }
+        
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.remove('active');
+            const msg = document.getElementById('profileMessage');
+            if (msg) msg.style.display = 'none';
+        }
+        
+        document.getElementById('profileModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProfileModal();
+            }
+        });
+        
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) {
+            profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const email = document.getElementById('profileEmail').value;
+            const messageEl = document.getElementById('profileMessage');
+            
+            if (!currentUser || !currentUser.id) {
+                messageEl.textContent = 'Please login again to update profile';
+                messageEl.className = 'form-message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+            
+            const accountName = document.getElementById('profileAccountName').value;
+            const bankName = document.getElementById('profileBankName').value;
+            const accountNumber = document.getElementById('profileAccountNumber').value;
+            const ifsc = document.getElementById('profileIfsc').value;
+            const upiId = document.getElementById('profileUpiId').value;
+            
+            const formData = new FormData();
+            formData.append('user_id', currentUser.id);
+            formData.append('email', email);
+            formData.append('account_name', accountName);
+            formData.append('bank_name', bankName);
+            formData.append('account_number', accountNumber);
+            formData.append('ifsc', ifsc);
+            formData.append('upi_id', upiId);
+            
+            fetch('update_profile.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    currentUser.email = email;
+                    currentUser.bank_name = bankName;
+                    currentUser.account_number = accountNumber;
+                    currentUser.ifsc = ifsc;
+                    currentUser.upi_id = upiId;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    messageEl.textContent = 'Profile updated successfully!';
+                    messageEl.className = 'form-message success';
+                    messageEl.style.display = 'block';
+                    setTimeout(() => {
+                        closeProfileModal();
+                    }, 2000);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                    messageEl.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error updating profile';
+                messageEl.className = 'form-message error';
+            });
+        });
+        }
+        
+        document.getElementById('ticketBuyModal').addEventListener('click', function(e) {
+            if (window.innerWidth > 768 && !e.target.closest('.modal-container')) closeTicketBuyModal();
+        });
+
+        document.getElementById('ticketNumsModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeTicketNumsPopup();
+        });
+
+        document.getElementById('myWinsModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeMyWinsModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var modals = ['ticketBuyModal', 'myTicketsModal', 'myWinsModal', 'ticketNumsModal', 'userTransactionsModal', 'moneyModal', 'depositModal', 'withdrawModal', 'profileModal', 'authModal'];
+                for (var i = 0; i < modals.length; i++) {
+                    var m = document.getElementById(modals[i]);
+                    if (m && m.classList.contains('active')) {
+                        m.classList.remove('active');
+                    }
+                }
+            }
+        });
+
+        document.getElementById('myTicketsModal').addEventListener('click', function(e) {
+            if (!e.target.closest('.modal-container')) closeMyTicketsModal();
+        });
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileBtn = document.getElementById('profileButton');
+            if (profileBtn && !profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        updateAuthUI();
+    </script>
+</body>
+</html>

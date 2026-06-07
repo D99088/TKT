@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 400px;
+            max-width: 95%;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #f8f8f8;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            background: white;
+            outline: none;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .password-field input {
+            padding-right: 45px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            cursor: pointer;
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .btn-login:hover {
+            opacity: 0.9;
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .form-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .form-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1><i class="fas fa-user-shield"></i> Main Admin Login</h1>
+            <p>Login to access main admin panel</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Mobile</label>
+                <input type="tel" id="mobile" placeholder="Enter your mobile number" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-login">Login</button>
+            
+            <div class="form-message" id="message"></div>
+        </form>
+        
+        <div class="back-link">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+        </div>
+    </div>
+    
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const mobile = document.getElementById('mobile').value;
+            const password = document.getElementById('password').value;
+            const messageEl = document.getElementById('message');
+            
+            messageEl.textContent = 'Logging in...';
+            messageEl.className = 'form-message';
+            messageEl.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            
+            fetch('main_admin_login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('mainAdmin', JSON.stringify(data.user));
+                    messageEl.textContent = 'Login successful! Redirecting...';
+                    messageEl.className = 'form-message success';
+                    setTimeout(() => {
+                        window.location.href = 'main-admin.html';
+                    }, 1000);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error logging in';
+                messageEl.className = 'form-message error';
+            });
+        });
+    </script>
+</body>
+</html>

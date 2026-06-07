@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Lock Check</title>
+</head>
+<body>
+    <h2>Test Check Lock API</h2>
+    <p>Enter user ID: <input type="number" id="userId" value="3"></p>
+    <button onclick="checkLock()">Check Lock Status</button>
+    <div id="result"></div>
+
+    <script>
+        function checkLock() {
+            var userId = document.getElementById('userId').value;
+            document.getElementById('result').innerHTML = 'Checking user ' + userId + '...';
+            
+            var formData = new FormData();
+            formData.append('action', 'check');
+            formData.append('id', userId);
+            
+            fetch('admin_lock_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            });
+        }
+        
+        checkLock();
+    </script>
+</body>
+</html>

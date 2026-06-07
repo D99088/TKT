@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        header {
+            background-color: #FFD700;
+            padding: 20px;
+            border: 1px solid #808080;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .profile-container {
+            position: relative;
+        }
+        
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        nav a:hover {
+            color: #000;
+        }
+        
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .menu-icon span {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-login {
+            background-color: #333;
+            color: white;
+        }
+        
+        .btn-register {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #333;
+        }
+        
+        .header-buttons button:hover {
+            opacity: 1;
+            background: #444;
+        }
+        
+        .header-buttons .btn-register:hover {
+            background: #f5f5f5;
+        }
+        
+        .profile-btn {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .profile-btn:hover {
+            background: #555;
+        }
+        
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .profile-dropdown.show {
+            display: block;
+        }
+        
+        .profile-info {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .profile-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .profile-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .profile-menu {
+            padding: 10px 0;
+        }
+        
+        .profile-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .profile-menu a:hover {
+            background: #f5f5f5;
+        }
+        
+        .profile-menu a i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .profile-container {
+            position: relative;
+        }
+        
+        .scroll-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .scroll-bar-content {
+            display: inline-block;
+            animation: scroll 15s linear infinite;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+        
+        .slides {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            width: 33.33%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .slide:nth-child(1) {
+            background-color: #FF6B6B;
+        }
+        
+        .slide:nth-child(2) {
+            background-color: #4ECDC4;
+        }
+        
+        .slide:nth-child(3) {
+            background-color: #45B7D1;
+        }
+        
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: #333;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        
+        main {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-container {
+            display: flex;
+            width: 500px;
+            max-width: 95%;
+            background: white;
+            border-radius: 15px;
+            overflow: visible;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+            position: relative;
+        }
+        
+        .modal-section {
+            flex: 1;
+            padding: 50px 30px 30px 30px;
+        }
+        
+        .login-modal {
+            background: white;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-section {
+            flex: 1;
+            padding: 40px 30px;
+        }
+        
+        .login-modal {
+            background: white;
+        }
+        
+        .register-modal {
+            background: white;
+            color: #333;
+        }
+        
+        .modal-section h2 {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+        
+        .modal-section .subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            background: #f5f5f5;
+            outline: none;
+        }
+        
+        .btn-modal {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .login-modal .btn-modal {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .register-modal .btn-modal {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            opacity: 1;
+        }
+        
+        .form-link {
+            text-align: center;
+            margin-top: 12px;
+        }
+        
+        .form-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 13px;
+            display: none;
+        }
+        
+        .form-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .form-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            z-index: 10;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: #fff;
+            background: #ff4444;
+        }
+        
+        .modal-header {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .modal-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            border: none;
+            background: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .modal-tab.active {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            margin-bottom: -2px;
+        }
+        
+        .modal-content {
+            display: none;
+        }
+        
+        .modal-content.active {
+            display: block;
+        }
+        
+        .modal-welcome {
+            text-align: center;
+            padding: 20px 30px 10px 30px;
+        }
+        
+        .modal-welcome h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 10px;
+            }
+            nav {
+                display: none;
+            }
+            .menu-icon {
+                display: flex;
+            }
+            nav.active {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 50px;
+                left: 0;
+                background-color: #FFD700;
+                width: 110px;
+                padding: 15px;
+                border: 1px solid #808080;
+                z-index: 99;
+            }
+            .modal-container {
+                flex-direction: column;
+            }
+            .modal-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div id="authButtons" class="header-buttons">
+            <button class="btn-login" onclick="openModal('login')">Login</button>
+            <button class="btn-register" onclick="openModal('register')">Register</button>
+        </div>
+        <div class="profile-container">
+            <div id="profileButton" class="profile-btn" style="display: none;" onclick="toggleProfile()">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-info">
+                    <h4 id="userName">User</h4>
+                    <p id="userMobile">Mobile</p>
+                </div>
+                <div class="profile-menu">
+                    <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="scroll-bar">
+        <div class="scroll-bar-content" id="scrollText">Welcome to our website! | Latest news and updates available now! | Check out our services!</div>
+    </div>
+    
+    <div class="slider">
+        <div class="slides" id="slides"></div>
+        <div class="slider-nav prev" onclick="changeSlide(-1)">&#10094;</div>
+        <div class="slider-nav next" onclick="changeSlide(1)">&#10095;</div>
+        <div class="slider-dots">
+            <div class="dot active" onclick="goToSlide(0)"></div>
+            <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="dot" onclick="goToSlide(2)"></div>
+        </div>
+    </div>
+    
+    <main>
+        <h2>Home</h2>
+        <p>This is the homepage content.</p>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026. All rights reserved.</p>
+    </footer>
+
+    <a href="https://wa.me/1234567890" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-container">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-welcome">
+                <h3>Hi Hello</h3>
+            </div>
+            
+            <div class="modal-header">
+                <button class="modal-tab active" onclick="switchTab('login')">Login</button>
+                <button class="modal-tab" onclick="switchTab('register')">Register</button>
+            </div>
+            
+            <div class="modal-content active" id="loginContent">
+                <div class="modal-section login-modal">
+                    <h2 style="text-align: center;">Welcome Back</h2>
+                    <p class="subtitle" style="text-align: center;">Sign in to your account</p>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input type="tel" id="loginMobile" placeholder="Enter your mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn-modal">Sign In</button>
+                        <div class="form-link">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                        <div class="form-message" id="loginMessage"></div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="modal-content" id="registerContent">
+                <div class="modal-section register-modal">
+                    <h2 style="text-align: center;">Create Account</h2>
+                    <p class="subtitle" style="text-align: center;">Join us today</p>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="regUsername" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input type="tel" id="regMobile" placeholder="Enter your mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="regPassword" placeholder="Create a password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="regConfirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                        <button type="submit" class="btn-modal">Create Account</button>
+                        <div class="form-message" id="registerMessage"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('active');
+        }
+        
+        let currentSlide = 0;
+        const totalSlides = 3;
+        let autoSlideInterval;
+        
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                currentSlide++;
+                if (currentSlide >= totalSlides) currentSlide = 0;
+                updateSlider();
+            }, 3000);
+        }
+        
+        function changeSlide(direction) {
+            clearInterval(autoSlideInterval);
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            updateSlider();
+            startAutoSlide();
+        }
+        
+        function goToSlide(index) {
+            clearInterval(autoSlideInterval);
+            currentSlide = index;
+            updateSlider();
+            startAutoSlide();
+        }
+        
+        function updateSlider() {
+            document.getElementById('slides').style.transform = 'translateX(-' + (currentSlide * 33.33) + '%)';
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+        
+        startAutoSlide();
+        
+        function loadWebsiteData() {
+            const data = JSON.parse(localStorage.getItem('websiteData'));
+            if (data) {
+                document.getElementById('scrollText').textContent = data.scrollText;
+                const slidesContainer = document.getElementById('slides');
+                slidesContainer.innerHTML = data.slides.map(slide => 
+                    `<div class="slide" style="background-color: ${slide.color}">${slide.text}</div>`
+                ).join('');
+            }
+        }
+        
+        loadWebsiteData();
+        
+        function openModal(tab) {
+            document.getElementById('authModal').classList.add('active');
+            switchTab(tab);
+        }
+        
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+        
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.modal-tab');
+            const loginContent = document.getElementById('loginContent');
+            const registerContent = document.getElementById('registerContent');
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+                loginContent.classList.add('active');
+                registerContent.classList.remove('active');
+            } else {
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
+                registerContent.classList.add('active');
+                loginContent.classList.remove('active');
+            }
+        }
+        
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('regUsername').value;
+            const mobile = document.getElementById('regMobile').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const messageEl = document.getElementById('registerMessage');
+            
+            messageEl.textContent = 'Creating account...';
+            messageEl.className = 'form-message';
+            messageEl.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            formData.append('confirm_password', confirmPassword);
+            
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageEl.textContent = 'Account created successfully!';
+                    messageEl.className = 'form-message success';
+                    document.getElementById('registerForm').reset();
+                    setTimeout(() => {
+                        switchTab('login');
+                        messageEl.className = 'form-message';
+                        messageEl.style.display = 'none';
+                    }, 2000);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error creating account';
+                messageEl.className = 'form-message error';
+            });
+        });
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const mobile = document.getElementById('loginMobile').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageEl = document.getElementById('loginMessage');
+            
+            messageEl.textContent = 'Logging in...';
+            messageEl.className = 'form-message';
+            messageEl.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('mobile', mobile);
+            formData.append('password', password);
+            
+            fetch('login_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageEl.textContent = 'Login successful!';
+                    messageEl.className = 'form-message success';
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    setTimeout(() => {
+                        closeModal();
+                        document.getElementById('loginForm').reset();
+                        messageEl.className = 'form-message';
+                        messageEl.style.display = 'none';
+                        updateAuthUI();
+                    }, 1500);
+                } else {
+                    messageEl.textContent = data.message;
+                    messageEl.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                messageEl.textContent = 'Error logging in';
+                messageEl.className = 'form-message error';
+            });
+        });
+        
+        function updateAuthUI() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const authButtons = document.getElementById('authButtons');
+            const profileButton = document.getElementById('profileButton');
+            
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                profileButton.style.display = 'flex';
+                document.getElementById('userName').textContent = currentUser.username;
+                document.getElementById('userMobile').textContent = currentUser.mobile;
+            } else {
+                authButtons.style.display = 'flex';
+                profileButton.style.display = 'none';
+            }
+        }
+        
+        function toggleProfile() {
+            document.getElementById('profileDropdown').classList.toggle('show');
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            fetch('logout.php')
+                .then(() => {
+                    document.getElementById('profileDropdown').classList.remove('show');
+                    updateAuthUI();
+                });
+        }
+        
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileBtn = document.getElementById('profileButton');
+            if (!profileBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        updateAuthUI();
+    </script>
+</body>
+</html>

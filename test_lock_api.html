@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Lock API</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .btn { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; margin: 5px; }
+        .result { margin-top: 20px; padding: 15px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h2>Test Lock API</h2>
+    <button class="btn" onclick="toggleLock(3, 1)">Lock User 3</button>
+    <button class="btn" onclick="toggleLock(3, 0)">Unlock User 3</button>
+    <button class="btn" onclick="checkLock(3)">Check User 3</button>
+    
+    <div class="result" id="result">Click a button to test</div>
+
+    <script>
+        function toggleLock(userId, locked) {
+            var formData = new FormData();
+            formData.append('action', 'toggle');
+            formData.append('id', userId);
+            formData.append('locked', locked);
+            
+            fetch('admin_lock_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = 'Error: ' + error;
+            });
+        }
+        
+        function checkLock(userId) {
+            var formData = new FormData();
+            formData.append('action', 'check');
+            formData.append('id', userId);
+            
+            fetch('admin_lock_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = 'Error: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>
